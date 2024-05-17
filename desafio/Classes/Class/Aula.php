@@ -11,7 +11,7 @@ class Aula{
     public $idAula;
     public $Titulo;
     public $Descricao;
-    public $idProfessor;
+    public $Professor;
     public $Data;
     public $Curso;
 
@@ -20,7 +20,7 @@ class Aula{
         $this->idAula = $obDatabase->insert([
             'Titulo' => $this->Titulo,
             'Descricao' => $this->Descricao,
-            'idProfessor' => $this->idProfessor,
+            'Professor' => $this->Professor,
             'Data' => $this->Data,
             'Curso' => $this->Curso
         ]);
@@ -30,8 +30,8 @@ class Aula{
     public function atualizar(){
         return (new Database('aulas'))->update('idAula = '.$this->idAula,[
             'Titulo' => $this->Titulo,
-            'CPF' => $this->Descricao,
-            'idProfessor' => $this->idProfessor,
+            'Descricao' => $this->Descricao,
+            'Professor' => $this->Professor,
             'Data' => $this->Data,
             'Curso' => $this->Curso
         ]);

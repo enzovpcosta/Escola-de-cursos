@@ -16,7 +16,7 @@
                 <a href="professores.php"><button type="button" class="btn btn-secondary" style="width: 150px">Professores</button></a>
                 <a href="alunos.php"><button type="button" class="btn btn-secondary" style="width: 150px">Alunos</button></a>
                 <a href="aulas.php"><button type="button" class="btn btn-secondary" style="width: 150px">Aulas</button></a>
-                <a href=""><button type="button" class="btn btn-secondary" style="width: 150px">Presença</button></a>
+                <a href="presenca.php"><button type="button" class="btn btn-secondary" style="width: 150px">Presença</button></a>
             </div>
         </div>
         <div class="container">

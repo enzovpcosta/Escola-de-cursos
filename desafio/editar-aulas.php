@@ -11,16 +11,17 @@
         exit;
     }
 
-    $obAluno = Aula::getAula($_GET['idAula']);
+    $obAula = Aula::getAula($_GET['idAula']);
     
     if(!$obAula instanceof Aula){
         header('location: aulas.php?status=error');
         exit;
     }
 
-    if(isset($_POST['nome'],$_POST['cpf'],$_POST['tel'],$_POST['nasc'],$_POST['resp'])){
+    if(isset($_POST['titulo'],$_POST['descricao'],$_POST['professor'],$_POST['data'],$_POST['curso'])){
         $obAula->Titulo = $_POST['titulo'];
         $obAula->Descricao = $_POST['descricao'];
+        $obAula->Professor = $_POST['professor'];
         $obAula->Data = $_POST['data'];
         $obAula->Curso = $_POST['curso'];
         $obAula->atualizar();

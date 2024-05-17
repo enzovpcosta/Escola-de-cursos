@@ -21,6 +21,7 @@
                           <td>'.$professor->Telefone.'</td>
                           <td>'.$professor->Nascimento.'</td>
                           <td>'.$professor->Curso.'</td>
+                          <td>'.$professor->Email.'</td>
                           <td>
                             <a href="editar-professores.php?idProfessor='.$professor->idProfessor.'"><button type="button" class="btn btn-primary">Editar</button></a>
                             <a href="excluir-professores.php?idProfessor='.$professor->idProfessor.'"><button type="button" class="btn btn-danger">Excluir</button></a>
@@ -44,13 +45,14 @@
                     <th>Telefone</th>
                     <th>Nascimento</th>
                     <th>Curso</th>
+                    <th>E-mail</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 <?=$resultados?>
                 <tr>
-                    <th class="text-center" colspan=7>
+                    <th class="text-center" colspan=8>
                     <a href="cadastrar-professores.php">
             <button class="btn btn-success mt-3">Novo professor</button>
         </a>

@@ -8,22 +8,22 @@
   </head>
   <body class="bg-dark text-light">
   <div style="width: 40%;" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
-      <h2 class="mb-3 text-center">Login Professor</h2>
+      <h2 class="mb-3 text-center">Login</h2>
       <form class="p-4 rounded-4" method="post">
       <?php 
 
    include __DIR__.'/config.php';
    
    if(isset($_POST['cpf']) || isset($_POST['senha'])) {
-        if(strlen($_POST['cpf']) == 0){
-            echo '<div class="alert alert-danger text-center">Preencha seu CPF!</div>';
+        if(strlen($_POST['email']) == 0){
+            echo '<div class="alert alert-danger text-center">Preencha seu e-mail!</div>';
         } else if(strlen($_POST['senha']) == 0){
             echo '<div class="alert alert-danger text-center">Preencha sua senha!</div>';
         } else {
-            $cpf = $conn->real_escape_string($_POST['cpf']);
+            $email = $conn->real_escape_string($_POST['email']);
             $senha = $conn->real_escape_string($_POST['senha']);
 
-            $query = 'SELECT * FROM professores WHERE cpf = \''.$cpf.'\' AND senha = \''.$senha.'\'';
+            $query = 'SELECT * FROM professores WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
             $result = $conn->query($query);
             $row = $result->num_rows;
            
@@ -40,7 +40,7 @@
                 header('location: menu.php');
 
             } else {
-                echo '<div class="alert alert-danger text-center">Falha ao logar! CPF ou senha incorretos!</div>';
+                echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
             }
         }
           
@@ -49,19 +49,27 @@
 ?>
       
         <div class="mb-3">
-            <label for="cpf" class="form-label">CPF</label>
-            <input type="text" class="form-control" name="cpf" id="cpf">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="email" id="email">
         </div>
         <div class="mb-3">
             <label for="senha" class="form-label">Senha</label>
             <input type="password" class="form-control" name="senha" id="senha">
         </div>
-        <div class="d-flex justify-content-end align-items-center py-3 border-bottom">
-            <button style="width: 150px;" type="submit" class="btn btn-success">Logar</button>
+        <div class="mb-3">
+            <label class="form-label">Login como:</label>
+            <div>
+                <div class="form-check-inline">
+                    <input type="radio" name="tipo" value="Professor" checked> Professor
+                </div>
+                <div class="form-check-inline">
+                    <input type="radio" name="tipo" value="Aluno"> Aluno
+                </div>
+            </div>
         </div>
         <div class="d-flex justify-content-between align-items-center py-3">
-            <p class="text-light m-0">Ainda não tem conta?</p>
-            <a href="cadastro.php" style="width: 250px;" class="btn btn-primary">Cadastrar</a>
+            <a href="recuperar.php" class="text-secondary">Recuperar senha</a>
+            <button style="width: 150px;" type="submit" class="btn btn-success">Logar</button>
         </div>
       </form>
   </div>

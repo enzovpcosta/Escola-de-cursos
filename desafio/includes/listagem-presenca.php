@@ -13,17 +13,18 @@
     }
 
     $resultados = '';
-    foreach($aulas as $aula){
+    foreach($presencas as $presenca){
         $resultados .= '<tr>
-                          <td>'.$aula->idAula.'</td>
-                          <td>'.$aula->Titulo.'</td>
-                          <td>'.$aula->Descricao.'</td>
-                          <td>'.$aula->Professor.'</td>
-                          <td>'.$aula->Data.'</td>
-                          <td>'.$aula->Curso.'</td>
+                          <td>'.$presenca->idPresenca.'</td>
+                          <td>'.$presenca->Aluno.'</td>
+                          <td>'.$presenca->Titulo.'</td>
+                          <td>'.$presenca->Professor.'</td>
+                          <td>'.$presenca->Curso.'</td>
+                          <td>'.$presenca->Data.'</td>
+                          <td>'.$presenca->Status.'</td>
                           <td>
-                            <a href="editar-aulas.php?idAula='.$aula->idAula.'"><button type="button" class="btn btn-primary">Editar</button></a>
-                            <a href="excluir-aulas.php?idAula='.$aula->idAula.'"><button type="button" class="btn btn-danger">Excluir</button></a>
+                            <a href="editar-presenca.php?idPresenca='.$presenca->idPresenca.'"><button type="button" class="btn btn-primary">Editar</button></a>
+                            <a href="excluir-presenca.php?idPresenca='.$presenca->idPresenca.'"><button type="button" class="btn btn-danger">Excluir</button></a>
                           </td>
                         </tr>';
     }
@@ -39,20 +40,21 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Título</th>
-                    <th>Descrição</th>
+                    <th>Nome do Aluno</th>
+                    <th>Título da Aula</th>
                     <th>Professor</th>
-                    <th>Data</th>
                     <th>Curso</th>
+                    <th>Data</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 <?=$resultados?>
                 <tr>
-                    <th class="text-center" colspan=7>
-                    <a href="cadastrar-aulas.php">
-            <button class="btn btn-success mt-3">Nova aula</button>
+                    <th class="text-center" colspan=8>
+                    <a href="cadastrar-presenca.php">
+                        <button class="btn btn-success mt-3">Nova presença</button>
                     </a>
                     </th>
                 </tr>

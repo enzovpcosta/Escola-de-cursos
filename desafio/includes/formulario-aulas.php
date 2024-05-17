@@ -16,8 +16,12 @@
             <input type="text" name="descricao" class="form-control" placeholder="Digite a descrição da aula" required value="<?=$obAula->Descricao?>">
         </div>
         <div class="mb-3">
+            <label class="form-label" for="professor">Professor</label>
+            <input type="text" name="professor" class="form-control" placeholder="Digite o nome do professor" required value="<?=$obAula->Professor?>">
+        </div>
+        <div class="mb-3">
             <label class="form-label" for="data">Data</label>
-            <input type="date" max="9999-12-31" name="date" class="form-control" required value="<?=$obAula->Data?>">
+            <input type="date" max="9999-12-31" name="data" class="form-control" required value="<?=$obAula->Data?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="curso">Curso</label>

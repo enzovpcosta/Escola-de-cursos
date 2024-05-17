@@ -28,6 +28,14 @@
             <input type="text" name="curso" class="form-control" placeholder="Digite o nome do curso" required value="<?=$obProf->Curso?>">
         </div>
         <div class="mb-3">
+            <label class="form-label" for="email">E-mail</label>
+            <input type="text" name="email" class="form-control" placeholder="Digite o seu e-mail" required value="<?=$obProf->Email?>">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="senha">Senha</label>
+            <input type="password" name="senha" class="form-control" placeholder="Digite a sua senha" required value="<?=$obProf->Senha?>">
+        </div>
+        <div class="mb-3">
             <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </form>
