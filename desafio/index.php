@@ -10,11 +10,12 @@
   <div style="width: 40%;" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
       <h2 class="mb-3 text-center">Login</h2>
       <form class="p-4 rounded-4" method="post">
-      <?php 
 
-   include __DIR__.'/config.php';
+    <?php 
+
+    include __DIR__.'/config.php';
    
-   if(isset($_POST['cpf']) || isset($_POST['senha'])) {
+    if(isset($_POST['cpf']) || isset($_POST['senha'])) {
         if(strlen($_POST['email']) == 0){
             echo '<div class="alert alert-danger text-center">Preencha seu e-mail!</div>';
         } else if(strlen($_POST['senha']) == 0){
@@ -65,9 +66,9 @@
                 }
         }
         }
-   }
+    }
 
-?>
+    ?>
       
         <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>

@@ -4,10 +4,10 @@
     if(isset($_GET['status'])){
         switch ($_GET['status']){
             case 'success':
-                $mensagem = '<div class="alert alert-success">Ação executada com sucesso</div>';
+                $mensagem = '<div class="alert alert-success text-center">Ação executada com sucesso</div>';
                 break;
             case 'error':
-                $mensagem = '<div class="alert alert-danger">Ação não executada</div>';
+                $mensagem = '<div class="alert alert-danger text-center">Ação não executada</div>';
                 break;
         }
     }
@@ -35,7 +35,7 @@
 
 <main>
     <section>
-        <table class="table mt-3 text-center table-bordered">
+        <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -47,12 +47,12 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody class="table-group-divider">
+            <tbody>
                 <?=$resultados?>
                 <tr>
                     <th class="text-center" colspan=7>
                     <a href="cadastrar-aulas.php">
-            <button class="btn btn-success mt-3">Nova aula</button>
+            <button class="btn btn-success my-2">Nova aula</button>
                     </a>
                     </th>
                 </tr>

@@ -1,7 +1,7 @@
 <main>
     <section class="my-4">
         <a href="professores.php">
-            <button class="btn btn-success">Voltar</button>
+            <button class="btn btn-primary">Voltar</button>
         </a>
     </section>
 
@@ -36,7 +36,7 @@
             <input type="password" name="senha" class="form-control" placeholder="Digite a sua senha" required value="<?=$obProf->Senha?>">
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-success">Enviar</button>
         </div>
     </form>
     <script>

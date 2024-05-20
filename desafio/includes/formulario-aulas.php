@@ -1,7 +1,7 @@
 <main>
     <section class="my-4">
         <a href="aulas.php">
-            <button class="btn btn-success">Voltar</button>
+            <button class="btn btn-primary">Voltar</button>
         </a>
     </section>
 
@@ -28,7 +28,7 @@
             <input type="text" name="curso" class="form-control" placeholder="Digite o nome do curso" required value="<?=$obAula->Curso?>">
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-success">Enviar</button>
         </div>
     </form>
     <script>

@@ -36,7 +36,7 @@
                         if (mail($email, 'Sua nova senha', 'Sua nova senha é: '.$novasenha)){
                         $query = 'UPDATE alunos SET Senha = \''.$novasenha.'\' WHERE Email = \''.$email.'\'';
                         $result = $conn->query($query);
-                        echo '<div class="alert alert-success">Um email foi enviado com a sua nova senha! <a href="index.php">Clique aqui para fazer o login</a></div>';
+                        echo '<div class="alert alert-success">Um email foi enviado com a sua nova senha! <a href="index.php" class="alert-link text-decoration-none">Clique aqui para fazer o login</a></div>';
                         ;
                         }
                     }
@@ -50,7 +50,7 @@
                         if (mail($email, 'Sua nova senha', 'Sua nova senha é: '.$novasenha)){
                         $query = 'UPDATE professores SET Senha = \''.$novasenha.'\' WHERE Email = \''.$email.'\'';
                         $result = $conn->query($query);
-                        echo '<div class="alert alert-success text-center">Um email foi enviado com a sua nova senha! <a href="index.php" class="text-decoration-none">Clique aqui para fazer o login</a>!</div>';
+                        echo '<div class="alert alert-success text-center">Um email foi enviado com a sua nova senha! <a href="index.php" class="text-decoration-none alert-link">Clique aqui para fazer o login</a>!</div>';
                         }
                     }
                 }
