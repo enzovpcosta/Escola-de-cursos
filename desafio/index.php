@@ -23,27 +23,48 @@
             $email = $conn->real_escape_string($_POST['email']);
             $senha = $conn->real_escape_string($_POST['senha']);
 
-            $query = 'SELECT * FROM professores WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
-            $result = $conn->query($query);
-            $row = $result->num_rows;
+            if ($_POST['tipo'] == 'Professor'){
+                $query = 'SELECT * FROM professores WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
+                $result = $conn->query($query);
+                $row = $result->num_rows;
            
-            if($row == 1){
-                $usuario = $result->fetch_assoc();
+                if($row == 1){
+                    $usuario = $result->fetch_assoc();
 
-                if(!isset($_SESSION)){
+                    if(!isset($_SESSION)){
                     session_start();
+                 }
+
+                    $_SESSION['id'] = $usuario['idProfessor'];
+                    $_SESSION['nome'] = $usuario['Nome'];
+
+                    header('location: menu.php');
+
+                } else {
+                    echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
+                } 
+            } else if ($_POST['tipo'] == 'Aluno'){
+                $query = 'SELECT * FROM alunos WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
+                $result = $conn->query($query);
+                $row = $result->num_rows;
+           
+                if($row == 1){
+                    $usuario = $result->fetch_assoc();
+
+                    if(!isset($_SESSION)){
+                    session_start();
+                 }
+
+                    $_SESSION['id'] = $usuario['idAluno'];
+                    $_SESSION['nome'] = $usuario['Nome'];
+
+                    header('location: menu.php');
+
+                } else {
+                    echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
                 }
-
-                $_SESSION['id'] = $usuario['idProfessor'];
-                $_SESSION['nome'] = $usuario['Nome'];
-
-                header('location: menu.php');
-
-            } else {
-                echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
-            }
         }
-          
+        }
    }
 
 ?>

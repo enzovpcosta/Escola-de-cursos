@@ -28,6 +28,14 @@
             <input type="text" name="resp" class="form-control" placeholder="Digite o nome do responsável (Se o aluno for de maior, deixe em branco)" value="<?=$obAluno->Responsavel?>">
         </div>
         <div class="mb-3">
+            <label class="form-label" for="email">E-mail</label>
+            <input type="text" name="email" class="form-control" placeholder="Digite o seu e-mail" required value="<?=$obAluno->Email?>">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="senha">Senha</label>
+            <input type="password" name="senha" class="form-control" placeholder="Digite a sua senha" required value="<?=$obAluno->Senha?>">
+        </div>
+        <div class="mb-3">
             <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </form>

@@ -14,6 +14,8 @@ class Aluno{
     public $Telefone;
     public $Nascimento;
     public $Responsavel;
+    public $Email;
+    public $Senha;
 
     public function cadastrar(){
         $obDatabase = new Database('alunos');
@@ -22,7 +24,9 @@ class Aluno{
             'CPF' => $this->CPF,
             'Telefone' => $this->Telefone,
             'Nascimento' => $this->Nascimento,
-            'Responsavel' => $this->Responsavel
+            'Responsavel' => $this->Responsavel,
+            'Email' => $this->Email,
+            'Senha' => $this->Senha
         ]);
         return true;
     }
@@ -33,7 +37,9 @@ class Aluno{
             'CPF' => $this->CPF,
             'Telefone' => $this->Telefone,
             'Nascimento' => $this->Nascimento,
-            'Responsavel' => $this->Responsavel
+            'Responsavel' => $this->Responsavel,
+            'Email' => $this->Email,
+            'Senha' => $this->Senha
         ]);
     }
 

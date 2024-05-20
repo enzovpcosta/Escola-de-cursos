@@ -21,6 +21,7 @@
                           <td>'.$aluno->Telefone.'</td>
                           <td>'.$aluno->Nascimento.'</td>
                           <td>'.$aluno->Responsavel.'</td>
+                          <td>'.$aluno->Email.'</td>
                           <td>
                             <a href="editar-alunos.php?idAluno='.$aluno->idAluno.'"><button type="button" class="btn btn-primary">Editar</button></a>
                             <a href="excluir-alunos.php?idAluno='.$aluno->idAluno.'"><button type="button" class="btn btn-danger">Excluir</button></a>
@@ -44,13 +45,14 @@
                     <th>Telefone</th>
                     <th>Nascimento</th>
                     <th>Responsavel</th>
+                    <th>Email</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 <?=$resultados?>
                 <tr>
-                    <th class="text-center" colspan=7>
+                    <th class="text-center" colspan=8>
                     <a href="cadastrar-alunos.php">
             <button class="btn btn-success mt-3">Novo aluno</button>
         </a>

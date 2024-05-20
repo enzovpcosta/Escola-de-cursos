@@ -24,6 +24,8 @@
         $obAluno->Telefone = $_POST['tel'];
         $obAluno->Nascimento = $_POST['nasc'];
         $obAluno->Responsavel = $_POST['resp'];
+        $obAluno->Email = $_POST['email'];
+        $obAluno->Senha = $_POST['senha'];
         $obAluno->atualizar();
        
         header('location: alunos.php?status=success');
