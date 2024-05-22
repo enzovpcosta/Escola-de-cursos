@@ -39,7 +39,7 @@
                     $_SESSION['id'] = $usuario['idProfessor'];
                     $_SESSION['nome'] = $usuario['Nome'];
 
-                    header('location: menu.php');
+                    header('location: menu-prof.php');
 
                 } else {
                     echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
@@ -59,7 +59,7 @@
                     $_SESSION['id'] = $usuario['idAluno'];
                     $_SESSION['nome'] = $usuario['Nome'];
 
-                    header('location: menu.php');
+                    header('location: menu-aluno.php');
 
                 } else {
                     echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
