@@ -8,13 +8,13 @@
   </head>
   <body class="bg-dark text-light">
       <div style="height: 100vh;" class="d-flex justify-content-between gap-3">
-        <div style="width: 10%;" class="bg-primary d-flex
+        <div style="width: 10%;" class="bg-light d-flex
         flex-column justify-content-between align-items-center py-4 px-5 text-light">
             <div class="d-flex flex-column gap-2">
-                <a href="professores.php"><button type="button" class="btn btn-secondary" style="width: 100%;">Professores</button></a>
-                <a href="alunos.php"><button type="button" class="btn btn-secondary" style="width: 100%">Alunos</button></a>
-                <a href="aulas.php"><button type="button" class="btn btn-secondary" style="width: 100%">Aulas</button></a>
-                <a href="presenca.php"><button type="button" class="btn btn-secondary" style="width: 100%">Presença</button></a>
+                <a href="professores.php"><button type="button" class="btn btn-dark" style="width: 100%;">Professores</button></a>
+                <a href="alunos.php"><button type="button" class="btn btn-dark" style="width: 100%">Alunos</button></a>
+                <a href="aulas.php"><button type="button" class="btn btn-dark" style="width: 100%">Aulas</button></a>
+                <a href="presenca.php"><button type="button" class="btn btn-dark" style="width: 100%">Presença</button></a>
             </div>
             <div class="d-flex justify-content-center align-center mt-3">
                 <a href="logout.php" class="btn btn-danger" style="width: 100%;">LOGOUT</a>

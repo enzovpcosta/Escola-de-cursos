@@ -22,7 +22,7 @@
     }
 
     include __DIR__.'/includes/protect.php';
-     include __DIR__.'/includes/header.php';
-     include __DIR__.'/includes/formulario-presenca.php';
-     include __DIR__.'/includes/footer.php';   
+    include __DIR__.'/includes/header.php';
+    include __DIR__.'/includes/formulario-presenca.php';
+    include __DIR__.'/includes/footer.php';   
 ?>

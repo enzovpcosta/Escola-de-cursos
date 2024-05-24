@@ -20,7 +20,7 @@
                           <td>'.$presenca->Titulo.'</td>
                           <td>'.$presenca->Professor.'</td>
                           <td>'.$presenca->Curso.'</td>
-                          <td>'.$presenca->Data.'</td>
+                          <td>'.date('d/m/Y', strtotime($presenca->Data)).'</td>
                           <td>'.$presenca->Status.'</td>
                           <td>
                             <a href="editar-presenca.php?idPresenca='.$presenca->idPresenca.'"><button type="button" class="btn btn-primary">Editar</button></a>
