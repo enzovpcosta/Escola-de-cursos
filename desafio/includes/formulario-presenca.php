@@ -1,9 +1,9 @@
 <main>
     <section class="my-4">
         <a href="aulas.php">
-            <button class="btn btn-priamry">Voltar</button>
+            <button class="btn btn-primary">Voltar</button>
         </a>
-    </section>
+</section>
 
     <h2><?=TITLE?></h2>
     <form method="post">
