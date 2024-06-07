@@ -13,11 +13,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="cpf">CPF</label>
-            <input type="text" name="cpf" class="form-control" placeholder="Ex: 12345678910" maxlength="11" required value="<?=$obAluno->CPF?>">
+            <input type="text" name="cpf" class="form-control" placeholder="Ex: 12345678910" maxlength="11" id="cpf" required value="<?=$obAluno->CPF?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="tel">Telefone</label>
-            <input type="text" name="tel" class="form-control" placeholder="Ex: 12345678910" maxlength="11" required value="<?=$obAluno->Telefone?>">
+            <input type="text" name="tel" class="form-control" placeholder="Ex: 12345678910" maxlength="11" id="tel" required value="<?=$obAluno->Telefone?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="nasc">Data de Nascimento</label>
