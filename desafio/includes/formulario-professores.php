@@ -9,7 +9,7 @@
     <form method="post">
         <div class="mb-3">
             <label class="form-label" for="nome">Nome Completo</label>
-            <input type="text" name="nome" class="form-control" placeholder="Digite o seu nome" required value="<?=$obProf->Nome?>">
+            <input type="text" name="nome" class="form-control" placeholder="Digite o nome completo" required value="<?=$obProf->Nome?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="cpf">CPF</label>
@@ -29,11 +29,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="email">E-mail</label>
-            <input type="text" name="email" class="form-control" placeholder="Digite o seu e-mail" required value="<?=$obProf->Email?>">
+            <input type="text" name="email" class="form-control" placeholder="Digite o e-mail" required value="<?=$obProf->Email?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="senha">Senha</label>
-            <input type="password" name="senha" class="form-control" placeholder="Digite a sua senha" required value="<?=$obProf->Senha?>">
+            <input type="password" name="senha" class="form-control" placeholder="Digite a senha" required value="<?=$obProf->Senha?>">
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-success">Enviar</button>

@@ -6,7 +6,7 @@
     <h2>Excluir presença</h2>
     <form method="post">
         <div class="mb-3">
-            <p>Você deseja realmente excluir a presença do aluno <strong><?=$obPresenca->Aluno?></strong> da aula <strong><?=$obPresenca->Titulo?></strong>?</p>
+            <p>Você deseja realmente excluir a presença do aluno com ID <strong><?=$obPresenca->idAluno?></strong> da aula com ID <strong><?=$obPresenca->idAula?></strong>?</p>
         </div>
        
         <div class="mb-3">

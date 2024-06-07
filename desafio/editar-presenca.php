@@ -18,13 +18,10 @@
         exit;
     }
 
-    if(isset($_POST['aluno'],$_POST['titulo'],$_POST['professor'],$_POST['curso'],$_POST['data'],$_POST['status'])){
+    if(isset($_POST['aluno'],$_POST['aula'],$_POST['status'])){
         
-        $obPresenca->Aluno = $_POST['aluno'];
-        $obPresenca->Titulo = $_POST['titulo'];
-        $obPresenca->Professor = $_POST['professor'];
-        $obPresenca->Curso = $_POST['curso'];
-        $obPresenca->Data = $_POST['data'];
+        $obPresenca->idAluno = $_POST['aluno'];
+        $obPresenca->idAula = $_POST['aula'];
         $obPresenca->Status = $_POST['status'];
         $obPresenca->atualizar();
        

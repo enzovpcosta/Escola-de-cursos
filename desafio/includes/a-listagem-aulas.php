@@ -17,7 +17,6 @@
     $resultados = '';
     foreach($aulas as $aula){
         $resultados .= '<tr>
-                          <td>'.$aula->idAula.'</td>
                           <td>'.$aula->Titulo.'</td>
                           <td>'.$aula->Descricao.'</td>
                           <td>'.$aula->Professor.'</td>
@@ -36,7 +35,6 @@
         <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Título</th>
                     <th>Descrição</th>
                     <th>Professor</th>

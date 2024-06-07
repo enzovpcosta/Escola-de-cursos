@@ -1,6 +1,6 @@
 <main>
     <section class="my-4">
-        <a href="aulas.php">
+        <a href="presenca.php">
             <button class="btn btn-primary">Voltar</button>
         </a>
 </section>
@@ -8,24 +8,12 @@
     <h2><?=TITLE?></h2>
     <form method="post">
     <div class="mb-3">
-            <label class="form-label" for="aluno">Nome do Aluno</label>
-            <input type="text" name="aluno" class="form-control" placeholder="Digite o nome do aluno" required value="<?=$obPresenca->Aluno?>">
+            <label class="form-label" for="aluno">idAluno</label>
+            <input type="text" name="aluno" class="form-control" placeholder="Digite o id do aluno" required value="<?=$obPresenca->idAluno?>">
         </div>
         <div class="mb-3">
-            <label class="form-label" for="titulo">Título da Aula</label>
-            <input type="text" name="titulo" class="form-control" placeholder="Digite o título da aula" required value="<?=$obPresenca->Titulo?>">
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="professor">Professor</label>
-            <input type="text" name="professor" class="form-control" placeholder="Digite o nome do professor" required value="<?=$obPresenca->Professor?>">
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="curso">Curso</label>
-            <input type="text" name="curso" class="form-control" placeholder="Digite o nome do curso" required value="<?=$obPresenca->Curso?>">
-        </div>
-        <div class="mb-3">
-            <label class="form-label" for="data">Data</label>
-            <input type="date" max="9999-12-31" name="data" class="form-control" required value="<?=$obPresenca->Data?>">
+            <label class="form-label" for="aula">idAula</label>
+            <input type="text" name="aula" class="form-control" placeholder="Digite o id da aula" required value="<?=$obPresenca->idAula?>">
         </div>
         <div class="mb-3 form-group">
             <label class="mb-2">Status</label>

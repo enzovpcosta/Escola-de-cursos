@@ -12,41 +12,37 @@
         }
     }
 
-    $resultados = '';
-    foreach($presencas as $presenca){
-        $resultados .= '<tr>
-                          <td>'.$presenca->idPresenca.'</td>
-                          <td>'.$presenca->Aluno.'</td>
-                          <td>'.$presenca->Titulo.'</td>
-                          <td>'.$presenca->Professor.'</td>
-                          <td>'.$presenca->Curso.'</td>
-                          <td>'.date('d/m/Y', strtotime($presenca->Data)).'</td>
-                          <td>'.$presenca->Status.'</td>
-                        </tr>';
-    }
-?>
-    <div class="mt-3">
-        <?=$mensagem?>
-    </div>
-    
-
-<main>
-    <section>
+    if($qtd > 0){
+        echo 
+        '<div class="mt-3">
+            '.$mensagem.'
+        </div>
         <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome do Aluno</th>
-                    <th>Título da Aula</th>
-                    <th>Professor</th>
-                    <th>Curso</th>
-                    <th>Data</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?=$resultados?>
-            </tbody>
-        </table>
-    </section>
-</main>
+                <thead>
+                    <tr>
+                        <th>Nome do Aluno</th>
+                        <th>Título da Aula</th>
+                        <th>Professor</th>
+                        <th>Curso</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>';
+        while($row = $res->fetch_object()){
+            if($_SESSION['id'] == $row->idAluno){
+            echo '<tr>
+            <td>'.$row->Nome.'</td>
+            <td>'.$row->Titulo.'</td>
+            <td>'.$row->Professor.'</td>
+            <td>'.$row->Curso.'</td>
+            <td>'.date('d/m/Y', strtotime($row->Data)).'</td>
+            <td>'.$row->Status.'</td>
+          </tr>';
+            }
+        }
+        echo '</tbody>
+        </table>';
+    } else {
+        echo '<div class="alert alert-danger text-center">Não há nenhuma presença!</div>';
+    }

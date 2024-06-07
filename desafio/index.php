@@ -64,7 +64,7 @@
                 } else {
                     echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
                 }
-        }
+            }
         }
     }
 

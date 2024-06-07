@@ -14,6 +14,9 @@
 
     $resultados = '';
     foreach($alunos as $aluno){
+        if($aluno->Responsavel == null){
+            $aluno->Responsavel = 'Não possui responsável!';
+        }
         $resultados .= '<tr>
                           <td>'.$aluno->idAluno.'</td>
                           <td>'.$aluno->Nome.'</td>
