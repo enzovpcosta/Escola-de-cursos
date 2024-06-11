@@ -1,9 +1,5 @@
 <?php 
 
-    require __DIR__.'/vendor/autoload.php';
-
-    define('TITLE','Editar professor');
-
     use \Classes\class\Prof;
 
     if(!isset($_GET['idProfessor']) or !is_numeric($_GET['idProfessor'])){
@@ -32,9 +28,4 @@
         exit;
     }
 
-
-    include __DIR__.'/includes/protect.php';
-    include __DIR__.'/includes/header.php';
-    include __DIR__.'/includes/formulario-professores.php';
-    include __DIR__.'/includes/footer.php';   
 ?>

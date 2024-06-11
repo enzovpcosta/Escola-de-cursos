@@ -8,12 +8,30 @@
     <h2><?=TITLE?></h2>
     <form method="post">
     <div class="mb-3">
-            <label class="form-label" for="aluno">idAluno</label>
-            <input type="text" name="aluno" class="form-control" placeholder="Digite o id do aluno" required value="<?=$obPresenca->idAluno?>">
+            <label class="form-label" for="aluno">Aluno</label>
+            <select name="aluno" id="aluno" class="form-control">
+                <option value="0">Selecione um Aluno</option>
+                <?php 
+                    $sql = 'SELECT * FROM alunos';
+                    $res = $conn->query($sql);
+                    while($row = $res->fetch_object()){
+                        echo '<option value="'.$row->idAluno.'">'.$row->Nome.'</option>';
+                    }
+                ?>
+            </select>
         </div>
         <div class="mb-3">
-            <label class="form-label" for="aula">idAula</label>
-            <input type="text" name="aula" class="form-control" placeholder="Digite o id da aula" required value="<?=$obPresenca->idAula?>">
+            <label class="form-label" for="aula">Aula</label>
+            <select name="aula" id="aula" class="form-control">
+                <option value="0">Selecione uma Aula</option>
+                <?php 
+                     $sql = 'SELECT * FROM aulas';
+                     $res = $conn->query($sql);
+                     while($row = $res->fetch_object()){
+                        echo '<option value="'.$row->idAula.'">'.$row->Titulo.'</option>';
+                    }
+                ?>
+            </select>
         </div>
         <div class="mb-3 form-group">
             <label class="mb-2">Status</label>

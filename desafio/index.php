@@ -38,8 +38,9 @@
 
                     $_SESSION['id'] = $usuario['idProfessor'];
                     $_SESSION['nome'] = $usuario['Nome'];
+                    $_SESSION['tipo'] = 'professor';
 
-                    header('location: menu-prof.php');
+                    header('location: dashboard.php');
 
                 } else {
                     echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
@@ -58,8 +59,9 @@
 
                     $_SESSION['id'] = $usuario['idAluno'];
                     $_SESSION['nome'] = $usuario['Nome'];
+                    $_SESSION['tipo'] = 'aluno';
 
-                    header('location: menu-aluno.php');
+                    header('location: dashboard.php');
 
                 } else {
                     echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
@@ -79,7 +81,7 @@
             <input type="password" class="form-control" name="senha" id="senha">
         </div>
         <div class="mb-3">
-            <label class="form-label">Login como:</label>
+            <label class="form-label">Logar como:</label>
             <div>
                 <div class="form-check-inline">
                     <input type="radio" name="tipo" value="Professor" checked> Professor
