@@ -2,6 +2,13 @@
 
 require 'config.php';
 
+if(isset($_POST['excluir_professor'])){
+    $id = $_POST['idProfessor'];
+    $query = 'DELETE FROM professores WHERE idProfessor='.$id;
+    $res = $conn->query($query);
+    echo json_encode(true);
+}
+
 if(isset($_POST['atualizar_professor'])){
     if(isset($_POST['EidProfessor'],$_POST['Enomeprof'],$_POST['Ecpfprof'],$_POST['Etelprof'],$_POST['Enascprof'],$_POST['Ecursoprof'],$_POST['Eemailprof'])){
 

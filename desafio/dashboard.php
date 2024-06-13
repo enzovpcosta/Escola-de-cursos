@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Escola de cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script src="script.js"></script>
   </head>
   <body class="bg-dark text-light">
       <div style="height: 100vh;" class="d-flex justify-content-between gap-3">
@@ -30,7 +35,6 @@
 
                 $query = 'SELECT * FROM professores';
                 $res = $conn->query($query);
-                $qtd = $res->num_rows;
                 $dados ='';
                 foreach($res as $professor){
                 $dados .= "<tr>
@@ -178,7 +182,6 @@
 
                 $query = 'SELECT * FROM alunos';
                 $res = $conn->query($query);
-                $qtd = $res->num_rows;
                 $dados ='';
                 foreach($res as $aluno){
                     if($aluno['Responsavel'] == null){
@@ -328,7 +331,6 @@
 
                 $query = 'SELECT * FROM aulas';
                 $res = $conn->query($query);
-                $qtd = $res->num_rows;
                 $dados ='';
                 foreach($res as $aula){
                 $dados .= "<tr>
@@ -339,8 +341,9 @@
                                 <td>".$aula['Data']."</td>
                                 <td>".$aula['Curso']."</td>
                                 <td>
-                                    <a><button type=\"button\" value=\"".$aluno['idAluno']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button></a>
-                                    <a><button type=\"button\" value=\"".$aluno['idAluno']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button></a>
+                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-primary\">Excluir</button></a>
+                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-danger\">Excluir</button></a>
+                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button></a>
                                 </td>
                             </tr>";
                     }
@@ -376,7 +379,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5">Cadastrar aula</h1>
+                                <h1 class="modal-title fs-5">Cadastrar aluno</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form id="novaAula">
@@ -387,7 +390,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="descricao">Descrição</label>
-                                        <input type="text" name="descricao" class="form-control" placeholder="Adicione uma descrição da aula" id="descricao">
+                                        <input type="text" name="descricao" class="form-control" placeholder="Adicione uma descrição" id="descricao">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="professor">Professor</label>
@@ -397,8 +400,8 @@
                                                 $query = 'SELECT * FROM professores';
                                                 $res = $conn->query($query);
                                                 while($row = $res->fetch_object()){
-                                                    echo '<option value="'.$row->idProfessor.'">'.$row->Nome.'</option>';
-                                                }
+                                                    echo '<option value="'.$row->Nome.'">'.$row->Nome.'</option>';
+                                                }                                            
                                             ?>
                                         </select>
                                     </div>
@@ -407,16 +410,8 @@
                                         <input type="date" max="9999-12-31" name="data" class="form-control" id="data" required>
                                     </div>
                                     <div class="mb-3">
-                                    <select name="curso" id="curso" class="form-control">
-                                            <option value="0">Escolha o curso</option>
-                                            <?php 
-                                                $query = 'SELECT * FROM professores WHERE ';
-                                                $res = $conn->query($query);
-                                                while($row = $res->fetch_object()){
-                                                    echo '<option value="'.$row->idProfessor.'">'.$row->Nome.'</option>';
-                                                }
-                                            ?>
-                                        </select>
+                                        <label class="form-label" for="curso">Curso</label>
+                                        <input type="text" name="curso" class="form-control" placeholder="Digite o curso" id="curso">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -484,14 +479,7 @@
             </div>
         </div>
     </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-<script src="script.js"></script>
-<script>
-    $('.cpf').mask('000.000.000-00', {reverse: true});
-    $('.tel').mask('(00) 00000-0000');
-</script>
+
+
 </body>
 </html>

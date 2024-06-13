@@ -1,7 +1,10 @@
-$('#tabela-professores').hide();
-$('#tabela-alunos').hide();
-$('#tabela-aulas').hide();
-$('#presenca').hide();
+$(document).ready(function() {
+    $('#tabela-professores').hide();
+    $('#tabela-alunos').hide();
+    $('#tabela-aulas').hide();
+    $('#presenca').hide();
+    $('.cpf').mask('000.000.000-00', {reverse: true});
+    $('.tel').mask('(00) 00000-0000');
 
 $('#professores').click(function (e) { 
     e.preventDefault();
@@ -115,24 +118,32 @@ $(document).on('click','.excluirProfessorBtn', function () {
         showCancelButton: true,
         confirmButtonColor: "#228B22",
         cancelButtonColor: "#d33",
-        confirmButtonText: "<div id=\"" + 'confirmarExclusao' + "\"> Sim, deletar!</div>",
+        confirmButtonText: "Sim, excluir!",
         cancelButtonText: "Cancelar"
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
-            title: "Excluído!",
-            text: "O professor foi excluído!",
-            icon: "success"
-          });
+
+            var idProfessor = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "Professores.php",
+                data: {
+                    'excluir_professor': true,
+                    'idProfessor': idProfessor
+                },
+                dataType: "json",
+                success: function (response) {
+                    Swal.fire({
+                    title: "Excluído!",
+                    text: "O professor foi excluído!",
+                    icon: "success"
+                     });
+                    $('#tabela-professores').load(location.href + " #tabela-professores")
+                }
+            }); 
         }
-      });
-});
-
-$('.confirmarExclusao').click(function (e) { 
-    e.preventDefault();
-
-    alert('oi')
-    return
+    });
 });
 
 //ALUNO ---------------------------------------------
@@ -239,6 +250,43 @@ $('#atualizarAluno').submit(function (e) {
     });
 });
 
+$(document).on('click','.excluirAlunoBtn', function () {
+
+    Swal.fire({
+        title: "Deseja excluir o aluno selecionado?",
+        text: "Você não poderá reverter depois!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#228B22",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+            var idAluno = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "Alunos.php",
+                data: {
+                    'excluir_aluno': true,
+                    'idAluno': idAluno
+                },
+                dataType: "json",
+                success: function (response) {
+                    Swal.fire({
+                    title: "Excluído!",
+                    text: "O aluno foi excluído!",
+                    icon: "success"
+                     });
+                    $('#tabela-alunos').load(location.href + " #tabela-alunos")
+                }
+            }); 
+        }
+    });
+});
+
 //AULAS ---------------------------------------------------
 $('#aulas').click(function (e) { 
     e.preventDefault();
@@ -278,6 +326,9 @@ $('#novaAula').submit(function (e) {
           return
     } else{
 
+        var formData = new FormData(this)
+        formData.append("nova_aula", true)
+
         $.ajax({
         type: "POST",
         url: "Aulas.php",
@@ -294,22 +345,17 @@ $('#novaAula').submit(function (e) {
                   });
                   $('#cadastrarAula').modal('hide')
                   $('#tabela-aulas').load(location.href + ' #tabela-aulas')
-            }
+                }
             else {
                 console.log("Error")
+                }
             }
-        }
-    });
+        });
     }
-
-    var formData = new FormData(this)
-    formData.append("nova_aula", true)
-
-    
 });
 
 $(document).on('click','.editarAulaBtn', function () {
-    var idAluno = $(this).val()
+    var idAula = $(this).val()
     //alert(idAluno)
 
     $.ajax({
@@ -360,7 +406,7 @@ $('#atualizarAula').submit(function (e) {
                     icon: "success"
                   });
                   $('#editarAula').modal('hide');
-                  $('#tabela-aulas').load(location.href + ' #tabela-aula')
+                  $('#tabela-aulas').load(location.href + ' #tabela-aulas')
                   return
             }
             else {
@@ -369,4 +415,43 @@ $('#atualizarAula').submit(function (e) {
             }
         }
     });
+});
+
+$(document).on('click','.excluirAulaBtn', function () {
+
+    Swal.fire({
+        title: "Deseja excluir a aula selecionada?",
+        text: "Você não poderá reverter depois!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#228B22",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+            var idAula = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "Aulas.php",
+                data: {
+                    'excluir_aula': true,
+                    'idAula': idAula
+                },
+                dataType: "json",
+                success: function (response) {
+                    Swal.fire({
+                    title: "Excluído!",
+                    text: "A aula foi excluída!",
+                    icon: "success"
+                     });
+                    $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                }
+            }); 
+        }
+    });
+});
+
 });

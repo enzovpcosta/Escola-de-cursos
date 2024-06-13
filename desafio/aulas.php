@@ -2,15 +2,22 @@
 
 require 'config.php';
 
-// if(isset($_POST['professor'])){
-//     $query = 'SELECT curso FROM professores WHERE Nome='.$_POST['professor'];
-//     $res = $conn->query($query);
-//     $response = [
-//         'msg' => 'success',
-//         'curso' => $res
-//     ];
-//     return json_encode($response);
-// }
+if(isset($_POST['excluir_aula'])){
+    $id = $_POST['idAula'];
+    $query = 'DELETE FROM aulas WHERE idAula='.$id;
+    $res = $conn->query($query);
+    echo json_encode(true);
+}
+
+if(isset($_POST['professor'])){
+    $query = 'SELECT Curso FROM professores WHERE Nome='.$_POST['professor'];
+    $res = $conn->query($query);
+    $response = [
+        'msg' => 'success',
+        'curso' => $res
+    ];
+    return json_encode($response);
+}
 
 if(isset($_POST['atualizar_aula'])){
     if(isset($_POST['EidAula'],$_POST['Etitulo'],$_POST['Edescricao'],$_POST['Eprofessor'],$_POST['Edata'],$_POST['Ecurso'])){
@@ -59,16 +66,15 @@ if(isset($_GET['idAula'])){
 }
 
 if(isset($_POST['nova_aula'])){
-    if(isset($_POST['idAula'],$_POST['titulo'],$_POST['descricao'],$_POST['professor'],$_POST['data'],$_POST['curso'])){
+    if(isset($_POST['titulo'],$_POST['descricao'],$_POST['professor'],$_POST['data'],$_POST['curso'])){
     
-        $id = $_POST['idAula'];
         $titulo = $_POST['titulo'];
         $descricao = $_POST['descricao'];
         $professor = $_POST['professor'];
         $data = $_POST['data'];
         $curso = $_POST['curso'];
     
-        $query = "INSERT INTO professores (Titulo,Descricao,Professor,Data,Curso) VALUES ('$titulo','$descricao','$professor','$data','$curso')";
+        $query = "INSERT INTO aulas (Titulo,Descricao,Professor,Data,Curso) VALUES ('$titulo','$descricao','$professor','$data','$curso')";
         $res = $conn->query($query);
         echo json_encode(true);
     }
