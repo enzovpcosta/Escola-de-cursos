@@ -9,16 +9,6 @@ if(isset($_POST['excluir_aula'])){
     echo json_encode(true);
 }
 
-if(isset($_POST['professor'])){
-    $query = 'SELECT Curso FROM professores WHERE Nome='.$_POST['professor'];
-    $res = $conn->query($query);
-    $response = [
-        'msg' => 'success',
-        'curso' => $res
-    ];
-    return json_encode($response);
-}
-
 if(isset($_POST['atualizar_aula'])){
     if(isset($_POST['EidAula'],$_POST['Etitulo'],$_POST['Edescricao'],$_POST['Eprofessor'],$_POST['Edata'],$_POST['Ecurso'])){
 

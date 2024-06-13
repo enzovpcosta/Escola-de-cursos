@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    
     $('#tabela-professores').hide();
     $('#tabela-alunos').hide();
     $('#tabela-aulas').hide();
@@ -36,6 +37,7 @@ $('#novoProfessor').submit(function (e) {
                   });
                   $('#cadastrarProfessor').modal('hide')
                   $('#tabela-professores').load(location.href + ' #tabela-professores')
+                  $('#novoProfessor')[0].reset()
             }
             else {
                 console.log("Error")
@@ -178,6 +180,7 @@ $('#novoAluno').submit(function (e) {
                   });
                   $('#cadastrarAluno').modal('hide')
                   $('#tabela-alunos').load(location.href + ' #tabela-alunos')
+                  $('#novoAluno')[0].reset()
             }
             else {
                 console.log("Error")
@@ -296,25 +299,6 @@ $('#aulas').click(function (e) {
     $('#tabela-aulas').show();
 });
 
-$('#professor').blur(function (e) {  
-    e.preventDefault();
-
-    var Prof = $('#professor').val();
-
-    $.ajax({
-        type: "POST",
-        url: "Aulas.php",
-        data: {professor: Prof},
-        dataType: "json",
-        success: function (response) {
-            if(response.msg=='success'){
-                $('#curso').val(response.curso);
-            }
-        }
-    });
-
-});
-
 $('#novaAula').submit(function (e) { 
     e.preventDefault();
 
@@ -323,13 +307,17 @@ $('#novaAula').submit(function (e) {
             icon: "warning",
             title: "Selecione algum professor!"
           });
-          return
-    } else{
+    } else if($('#curso').val() == 0){
+        Swal.fire({
+            icon: "warning",
+            title: "Selecione algum curso!"
+          });
+    } else {
 
-        var formData = new FormData(this)
-        formData.append("nova_aula", true)
+    var formData = new FormData(this)
+    formData.append("nova_aula", true)
 
-        $.ajax({
+    $.ajax({
         type: "POST",
         url: "Aulas.php",
         data: formData,
@@ -345,12 +333,13 @@ $('#novaAula').submit(function (e) {
                   });
                   $('#cadastrarAula').modal('hide')
                   $('#tabela-aulas').load(location.href + ' #tabela-aulas')
-                }
+                  $('#novaAula')[0].reset()
+            }
             else {
                 console.log("Error")
-                }
             }
-        });
+        }
+    });
     }
 });
 
@@ -453,5 +442,41 @@ $(document).on('click','.excluirAulaBtn', function () {
         }
     });
 });
+
+$(document).on('click','.alterarPresenca', function () {
+    Swal.fire({
+        title: "Você tem certeza?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#228B22",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, alterar!",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+            var idPresenca = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "Presenca.php",
+                data: {
+                    'alterar_status': true,
+                    'idPresenca': idPresenca
+                },
+                dataType: "json",
+                success: function (response) {
+                    Swal.fire({
+                    title: "Alterado!",
+                    text: "O status foi alterado!",
+                    icon: "success"
+                     });
+                    $('#tabela-presenca').load(location.href + " #tabela-presenca")
+                }
+            }); 
+        }
+    });
+});
+ 
 
 });

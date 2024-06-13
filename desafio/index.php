@@ -13,7 +13,7 @@
 
     <?php 
 
-    include __DIR__.'/config.php';
+    require 'config.php';
    
     if(isset($_POST['cpf']) || isset($_POST['senha'])) {
         if(strlen($_POST['email']) == 0){

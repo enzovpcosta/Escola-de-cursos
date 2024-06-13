@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Escola de cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="jquery-3.7.1.min.js"></script>
+    <script src="assets/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-    <script src="script.js"></script>
+    <script src="assets/script.js"></script>
   </head>
   <body class="bg-dark text-light">
       <div style="height: 100vh;" class="d-flex justify-content-between gap-3">
@@ -341,9 +341,9 @@
                                 <td>".$aula['Data']."</td>
                                 <td>".$aula['Curso']."</td>
                                 <td>
-                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-primary\">Excluir</button></a>
-                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-danger\">Excluir</button></a>
-                                    <a><button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button></a>
+                                    <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
+                                    <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\"data-bs-toggle=\"modal\" data-bs-target=\"#modalpresenca\">Presença</button>
+                                    <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
                                 </td>
                             </tr>";
                     }
@@ -379,7 +379,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5">Cadastrar aluno</h1>
+                                <h1 class="modal-title fs-5">Criar aula</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form id="novaAula">
@@ -411,7 +411,16 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="curso">Curso</label>
-                                        <input type="text" name="curso" class="form-control" placeholder="Digite o curso" id="curso">
+                                        <select name="curso" id="curso" class="form-control">
+                                            <option value="0">Escolha o curso</option>
+                                            <?php 
+                                                $query = 'SELECT * FROM professores';
+                                                $res = $conn->query($query);
+                                                while($row = $res->fetch_object()){
+                                                    echo '<option value="'.$row->Curso.'">'.$row->Curso.'</option>';
+                                                }                                            
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -480,6 +489,54 @@
         </div>
     </div>
 
+    <!-- Presença -->
 
+    <div class="modal fade text-dark modal-xl" id="modalpresenca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Presença</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-start">
+                <?php 
+                    
+                    $sql = "SELECT presenca.idPresenca, alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula";
+                    $res = $conn->query($sql);
+                    $dados ='';
+                    foreach($res as $aula){
+                    $dados .= "<tr>
+                                <td>".$aula['Nome']."</td>
+                                <td>".$aula['Titulo']."</td>
+                                <td>".$aula['Professor']."</td>
+                                <td>".$aula['Curso']."</td>
+                                <td>".$aula['Data']."</td>
+                                <td>".$aula['Status']."</td>
+                                <td>
+                                    <a><button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"alterarPresenca btn btn-primary\">Alterar status</button></a>
+                                </td>
+                            </tr>";
+                    }
+                    ?>
+                    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Aula</th>
+                                <th>Professor</th>
+                                <th>Curso</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?=$dados?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
