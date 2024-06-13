@@ -28,7 +28,7 @@ $('#novoProfessor').submit(function (e) {
             if(response == true){
                 console.log("Success")
                 Swal.fire({
-                    title: "Professor cadastrado com successo!",
+                    title: "Professor cadastrado com sucesso!",
                     icon: "success"
                   });
                   $('#cadastrarProfessor').modal('hide')
@@ -91,7 +91,7 @@ $('#atualizarProfessor').submit(function (e) {
             if(response == true){
                 console.log("Success")
                 Swal.fire({
-                    title: "Professor atualizado com successo!",
+                    title: "Professor atualizado com sucesso!",
                     icon: "success"
                   });
                   $('#editarProfessor').modal('hide');
@@ -115,7 +115,7 @@ $(document).on('click','.excluirProfessorBtn', function () {
         showCancelButton: true,
         confirmButtonColor: "#228B22",
         cancelButtonColor: "#d33",
-        confirmButtonText: "<div class=\"" + 'confirmarExclusao' + "\"> Sim, deletar!</div>",
+        confirmButtonText: "<div id=\"" + 'confirmarExclusao' + "\"> Sim, deletar!</div>",
         cancelButtonText: "Cancelar"
       }).then((result) => {
         if (result.isConfirmed) {
@@ -128,10 +128,11 @@ $(document).on('click','.excluirProfessorBtn', function () {
       });
 });
 
-$('.confirmarExclusao').submit(function (e) { 
+$('.confirmarExclusao').click(function (e) { 
     e.preventDefault();
-    
-    
+
+    alert('oi')
+    return
 });
 
 //ALUNO ---------------------------------------------
@@ -247,15 +248,15 @@ $('#aulas').click(function (e) {
     $('#tabela-aulas').show();
 });
 
-$('#professor').blur(function (e) { 
+$('#professor').blur(function (e) {  
     e.preventDefault();
-    
+
     var Prof = $('#professor').val();
 
     $.ajax({
         type: "POST",
         url: "Aulas.php",
-        data: {Professor: Prof},
+        data: {professor: Prof},
         dataType: "json",
         success: function (response) {
             if(response.msg=='success'){
@@ -359,7 +360,7 @@ $('#atualizarAula').submit(function (e) {
                     icon: "success"
                   });
                   $('#editarAula').modal('hide');
-                  $('#tabela-aulas').load(location.href + ' #tabela-aulaa')
+                  $('#tabela-aulas').load(location.href + ' #tabela-aula')
                   return
             }
             else {

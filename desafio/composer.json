@@ -1,8 +1,0 @@
-{
-    "name":"desafio/softjr",
-    "autoload":{
-        "psr-4":{
-            "Classes\\":"classes/"
-        }
-    }
-}

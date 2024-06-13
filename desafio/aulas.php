@@ -2,48 +2,47 @@
 
 require 'config.php';
 
-if(isset($_POST['Professor'])){
-    $query = 'SELECT Curso FROM professores WHERE Nome='.$_POST['Professor'];
-    $res = $conn->query($query);
-    $response = [
-        'msg' => 'success',
-        'curso' => $res
-    ];
-    return json_encode($response);
-}
+// if(isset($_POST['professor'])){
+//     $query = 'SELECT curso FROM professores WHERE Nome='.$_POST['professor'];
+//     $res = $conn->query($query);
+//     $response = [
+//         'msg' => 'success',
+//         'curso' => $res
+//     ];
+//     return json_encode($response);
+// }
 
-if(isset($_POST['atualizar_aluno'])){
-    if(isset($_POST['EidAluno'],$_POST['Enomealuno'],$_POST['Ecpfaluno'],$_POST['Etelaluno'],$_POST['Enascaluno'],$_POST['Erespaluno'],$_POST['Eemailaluno'])){
+if(isset($_POST['atualizar_aula'])){
+    if(isset($_POST['EidAula'],$_POST['Etitulo'],$_POST['Edescricao'],$_POST['Eprofessor'],$_POST['Edata'],$_POST['Ecurso'])){
 
-        $id = $_POST['EidAluno'];
-        $nome = $_POST['Enomealuno'];
-        $cpf = $_POST['Ecpfaluno'];
-        $tel = $_POST['Etelaluno'];
-        $nasc = $_POST['Enascaluno'];
-        $resp = $_POST['Erespaluno'];
-        $email = $_POST['Eemailaluno'];
+        $id = $_POST['EidAula'];
+        $titulo = $_POST['Etitulo'];
+        $descricao = $_POST['Edescricao'];
+        $professor = $_POST['Eprofessor'];
+        $data = $_POST['Edata'];
+        $curso = $_POST['Ecurso'];
     
-        $query = "UPDATE alunos SET Nome='$nome', CPF='$cpf', Telefone='$tel', Nascimento='$nasc', Responsavel='$resp', Email = '$email' WHERE idAluno='$id'";
+        $query = "UPDATE aulas SET Titulo='$titulo', Descricao='$descricao', Professor='$professor', Data='$data', Curso='$curso' WHERE idAula='$id'";
         $res = $conn->query($query);
         echo json_encode(true);
     }
 }
 
-if(isset($_GET['idAluno'])){
-    $idAluno = $_GET['idAluno'];
+if(isset($_GET['idAula'])){
+    $idAula = $_GET['idAula'];
 
-    $query = "SELECT * FROM alunos WHERE idAluno='$idAluno'";
+    $query = "SELECT * FROM aulas WHERE idAula='$idAula'";
     $res = $conn->query($query);
     $qtd = $res->num_rows;
 
     if($qtd == 1){
 
-        $aluno = mysqli_fetch_array($res);
+        $aula = mysqli_fetch_array($res);
 
         $res = [
             'status' => 200,
-            'message' => 'Aluno encontrado',
-            'data' => $aluno
+            'message' => 'Aula encontrada',
+            'data' => $aula
         ];
         echo json_encode($res);
 
@@ -51,7 +50,7 @@ if(isset($_GET['idAluno'])){
 
         $res = [
             'status' => 404,
-            'message' => 'Aluno não encontrado'
+            'message' => 'Aula não encontrada'
         ];
         echo json_encode($res);
 
@@ -59,18 +58,17 @@ if(isset($_GET['idAluno'])){
 
 }
 
-if(isset($_POST['novo_aluno'])){
-    if(isset($_POST['nomealuno'],$_POST['cpfaluno'],$_POST['telaluno'],$_POST['nascaluno'],$_POST['respaluno'],$_POST['emailaluno'],$_POST['senhaaluno'])){
+if(isset($_POST['nova_aula'])){
+    if(isset($_POST['idAula'],$_POST['titulo'],$_POST['descricao'],$_POST['professor'],$_POST['data'],$_POST['curso'])){
     
-        $nome = $_POST['nomealuno'];
-        $cpf = $_POST['cpfaluno'];
-        $tel = $_POST['telaluno'];
-        $nasc = $_POST['nascaluno'];
-        $resp = $_POST['respaluno'];
-        $email = $_POST['emailaluno'];
-        $senha = $_POST['senhaaluno'];
+        $id = $_POST['idAula'];
+        $titulo = $_POST['titulo'];
+        $descricao = $_POST['descricao'];
+        $professor = $_POST['professor'];
+        $data = $_POST['data'];
+        $curso = $_POST['curso'];
     
-        $query = "INSERT INTO alunos (Nome,CPF,Telefone,Nascimento,Responsavel,Email,Senha) VALUES ('$nome','$cpf','$tel','$nasc','$resp','$email','$senha')";
+        $query = "INSERT INTO professores (Titulo,Descricao,Professor,Data,Curso) VALUES ('$titulo','$descricao','$professor','$data','$curso')";
         $res = $conn->query($query);
         echo json_encode(true);
     }

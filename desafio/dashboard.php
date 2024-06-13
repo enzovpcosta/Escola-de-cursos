@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,6 +26,7 @@
                 <p>Informações sobre os professores, os alunos, as aulas e presença.</p>
                 <?php
                 require 'config.php';
+                require 'protect.php';
 
                 $query = 'SELECT * FROM professores';
                 $res = $conn->query($query);
@@ -406,21 +407,21 @@
                                         <input type="date" max="9999-12-31" name="data" class="form-control" id="data" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="curso">Curso</label>
-                                        <select name="curso" id="curso" class="form-control"></select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="emailaluno">E-mail</label>
-                                        <input type="email" name="emailaluno" class="form-control" placeholder="Digite o e-mail" id="emailaluno" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="senhaaluno">Senha</label>
-                                        <input type="password" name="senhaaluno" class="form-control" placeholder="Digite a senha" id="senhaaluno" required autocomplete="current-password">
+                                    <select name="curso" id="curso" class="form-control">
+                                            <option value="0">Escolha o curso</option>
+                                            <?php 
+                                                $query = 'SELECT * FROM professores WHERE ';
+                                                $res = $conn->query($query);
+                                                while($row = $res->fetch_object()){
+                                                    echo '<option value="'.$row->idProfessor.'">'.$row->Nome.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    <button type="submit" class="btn btn-primary">Cadastrar Aluno</button>
+                                    <button type="submit" class="btn btn-primary">Criar aula</button>
                                 </div>
                             </form>
                         </div>
@@ -429,42 +430,47 @@
 
 
                 <!-- Editar Aulas -->
-                <div class="modal fade text-dark" id="editarAluno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade text-dark" id="editarAula" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5">Editar aluno</h1>
+                                <h1 class="modal-title fs-5">Editar aula</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form id="atualizarAluno">
+                            <form id="atualizarAula">
                                 <div class="modal-body text-start">
                                     <div class="mb-3">
-                                        <label for="EidAluno">ID</label>
-                                        <input type="text" name="EidAluno" id="EidAluno" class="form-control" readonly>
+                                        <label for="EidAula">ID</label>
+                                        <input type="text" name="EidAula" id="EidAula" class="form-control" readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="Enomealuno">Nome Completo</label>
-                                        <input type="text" name="Enomealuno" class="form-control" placeholder="Digite o nome completo" id="Enomealuno" required>
+                                        <label class="form-label" for="Etitulo">Título da aula</label>
+                                        <input type="text" name="Etitulo" class="form-control" placeholder="Digite o título da aula" id="Etitulo" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="Ecpfaluno">CPF</label>
-                                        <input type="text" name="Ecpfaluno" class="cpf form-control" placeholder="Ex: 12345678910" maxlength="11" id="Ecpfaluno" required>
+                                        <label class="form-label" for="Edescricao">Descrição</label>
+                                        <input type="text" name="Edescricao" class="form-control" placeholder="Adicione uma descrição da aula" id="Edescricao">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="Etelaluno">Telefone</label>
-                                        <input type="text" name="Etelaluno" class="tel form-control" placeholder="Ex: 12345678910" maxlength="11" id="Etelaluno" required>
+                                        <label class="form-label" for="Eprofessor">Professor</label>
+                                        <select name="Eprofessor" id="Eprofessor" class="form-control">
+                                            <option value="0">Escolha o professor</option>
+                                            <?php 
+                                                $query = 'SELECT * FROM professores';
+                                                $res = $conn->query($query);
+                                                while($row = $res->fetch_object()){
+                                                    echo '<option value="'.$row->idProfessor.'">'.$row->Nome.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="Enascaluno">Data de Nascimento</label>
-                                        <input type="date" max="9999-12-31" name="Enascaluno" class="form-control" id="Enascaluno" required>
+                                        <label class="form-label" for="Edata">Data</label>
+                                        <input type="date" max="9999-12-31" name="Edata" class="form-control" id="Edata" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="respaluno">Responsável</label>
-                                        <input type="text" name="Erespaluno" class="form-control" placeholder="Digite o nome do responsável" id="Erespaluno">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="Eemailaluno">E-mail</label>
-                                        <input type="email" name="Eemailaluno" class="form-control" placeholder="Digite o e-mail" id="Eemailaluno" required>
+                                        <label class="form-label" for="Ecurso">Curso</label>
+                                        <input type="text" name="Ecurso" id="Ecurso" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -475,18 +481,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </div>
     </div>
