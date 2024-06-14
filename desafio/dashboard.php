@@ -1,3 +1,17 @@
+<?php 
+    
+    // Check if the cookie is set
+    if(isset($_COOKIE['myCookie'])) {
+        // Retrieve the value of the cookie
+        $myCookieValue = $_COOKIE['myCookie'];
+        echo "Cookie Value: " . $myCookieValue;
+    } else {
+        echo "Cookie is not set.";
+    }
+?>
+
+
+
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -8,7 +22,9 @@
     <script src="assets/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script src="assets/jquery.session.js"></script>
     <script src="assets/script.js"></script>
   </head>
   <body class="bg-dark text-light">
@@ -22,16 +38,17 @@
                 <a id="presenca"><button type="button" class="btn btn-dark" style="width: 100%">Presença</button></a>
             </div>
             <div class="d-flex justify-content-center align-center mt-3">
-                <a href="logout.php" class="btn btn-danger" style="width: 100%;">LOGOUT</a>
+                <a id="logout" class="btn btn-danger" style="width: 100%;">LOGOUT</a>
             </div>
         </div>
         <div class="container">
             <div class="text-center my-4">
                 <h1><strong>Escola de cursos</strong></h1>
                 <p>Informações sobre os professores, os alunos, as aulas e presença.</p>
+                <br>
+                <h2 id="bv"></h2>
                 <?php
                 require 'config.php';
-                require 'protect.php';
 
                 $query = 'SELECT * FROM professores';
                 $res = $conn->query($query);
@@ -340,7 +357,7 @@
                                 <td>".$aula['Professor']."</td>
                                 <td>".$aula['Data']."</td>
                                 <td>".$aula['Curso']."</td>
-                                <td>
+                                <td class=\"acao\">
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\"data-bs-toggle=\"modal\" data-bs-target=\"#modalpresenca\">Presença</button>
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
@@ -358,12 +375,12 @@
                                 <th>Professor</th>
                                 <th>Data</th>
                                 <th>Curso</th>
-                                <th>Ações</th>
+                                <th class="acao">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr>
+                            <tr class="new">
                                 <th class="text-center" colspan=7>
                                     <a class="btn-cadastrar-aula">
                                         <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarAula">Nova aula</button>
@@ -457,16 +474,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="Eprofessor">Professor</label>
-                                        <select name="Eprofessor" id="Eprofessor" class="form-control">
-                                            <option value="0">Escolha o professor</option>
-                                            <?php 
-                                                $query = 'SELECT * FROM professores';
-                                                $res = $conn->query($query);
-                                                while($row = $res->fetch_object()){
-                                                    echo '<option value="'.$row->idProfessor.'">'.$row->Nome.'</option>';
-                                                }
-                                            ?>
-                                        </select>
+                                        <input type="text" name="Eprofessor" id="Eprofessor" class="form-control">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="Edata">Data</label>
@@ -517,7 +525,7 @@
                                 </td>
                             </tr>";
                     }
-                    ?>
+                ?>
                     <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca">
                         <thead>
                             <tr>
@@ -538,5 +546,39 @@
             </div>
         </div>
     </div>
+
+    <!-- PRESENÇA- ALUNOS -->
+
+    <?php 
+                    
+    $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula";
+    $res = $conn->query($sql);
+    $dados ='';
+    foreach($res as $aula){
+    $dados .= "<tr>
+                <td>".$aula['Nome']."</td>
+                <td>".$aula['Titulo']."</td>
+                <td>".$aula['Professor']."</td>
+                <td>".$aula['Curso']."</td>
+                <td>".$aula['Data']."</td>
+                <td>".$aula['Status']."</td>
+            </tr>";
+    }
+    ?>
+    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca-alunos">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Aula</th>
+                <th>Professor</th>
+                <th>Curso</th>
+                <th>Data</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?=$dados?>
+        </tbody>
+    </table>
 </body>
 </html>

@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -5,80 +8,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Escola de cursos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+    <script src="assets/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="assets/jquery.session.js"></script>
+    <script src="assets/script.js"></script>
   </head>
   <body class="bg-dark text-light">
   <div style="width: 40%;" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
       <h2 class="mb-3 text-center">Login</h2>
-      <form class="p-4 rounded-4" method="post">
-
-    <?php 
-
-    require 'config.php';
-   
-    if(isset($_POST['cpf']) || isset($_POST['senha'])) {
-        if(strlen($_POST['email']) == 0){
-            echo '<div class="alert alert-danger text-center">Preencha seu e-mail!</div>';
-        } else if(strlen($_POST['senha']) == 0){
-            echo '<div class="alert alert-danger text-center">Preencha sua senha!</div>';
-        } else {
-            $email = $conn->real_escape_string($_POST['email']);
-            $senha = $conn->real_escape_string($_POST['senha']);
-
-            if ($_POST['tipo'] == 'Professor'){
-                $query = 'SELECT * FROM professores WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
-                $result = $conn->query($query);
-                $row = $result->num_rows;
-           
-                if($row == 1){
-                    $usuario = $result->fetch_assoc();
-
-                    if(!isset($_SESSION)){
-                    session_start();
-                 }
-
-                    $_SESSION['id'] = $usuario['idProfessor'];
-                    $_SESSION['nome'] = $usuario['Nome'];
-                    $_SESSION['tipo'] = 'professor';
-
-                    header('location: dashboard.php');
-
-                } else {
-                    echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
-                } 
-            } else if ($_POST['tipo'] == 'Aluno'){
-                $query = 'SELECT * FROM alunos WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
-                $result = $conn->query($query);
-                $row = $result->num_rows;
-           
-                if($row == 1){
-                    $usuario = $result->fetch_assoc();
-
-                    if(!isset($_SESSION)){
-                    session_start();
-                 }
-
-                    $_SESSION['id'] = $usuario['idAluno'];
-                    $_SESSION['nome'] = $usuario['Nome'];
-                    $_SESSION['tipo'] = 'aluno';
-
-                    header('location: dashboard.php');
-
-                } else {
-                    echo '<div class="alert alert-danger text-center">Falha ao logar! E-mail ou senha incorretos!</div>';
-                }
-            }
-        }
-    }
-
-    ?>
-      
+      <div class="alertLogin alert alert-danger text-center"></div>
+      <form class="p-4 rounded-4" method="post" id="login">
         <div class="mb-3">
-            <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" name="email" id="email">
+            <label for="emailLogin" class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="emailLogin" id="emailLogin">
         </div>
         <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" name="senha" id="senha">
+            <label for="senhaLogin" class="form-label">Senha</label>
+            <input type="password" class="form-control" name="senhaLogin" id="senhaLogin">
         </div>
         <div class="mb-3">
             <label class="form-label">Logar como:</label>
@@ -97,6 +44,6 @@
         </div>
       </form>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
   </body>
 </html>
