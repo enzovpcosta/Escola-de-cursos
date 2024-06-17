@@ -1,6 +1,3 @@
-<?php 
-    session_start();
-?>
 <!doctype html>
 <html lang="pt-br">
   <head>
@@ -17,7 +14,7 @@
   <body class="bg-dark text-light">
   <div style="width: 40%;" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
       <h2 class="mb-3 text-center">Login</h2>
-      <div class="alertLogin alert alert-danger text-center"></div>
+      <div class="alertLogin alert alert-danger text-center mx-4"></div>
       <form class="p-4 rounded-4" method="post" id="login">
         <div class="mb-3">
             <label for="emailLogin" class="form-label">E-mail</label>
@@ -45,5 +42,5 @@
       </form>
   </div>
   
-  </body>
+  </bod>
 </html>

@@ -1,16 +1,9 @@
 <?php 
     
-    // Check if the cookie is set
-    if(isset($_COOKIE['myCookie'])) {
-        // Retrieve the value of the cookie
-        $myCookieValue = $_COOKIE['myCookie'];
-        echo "Cookie Value: " . $myCookieValue;
-    } else {
-        echo "Cookie is not set.";
+    if(!isset($_COOKIE['professor']) && !isset($_COOKIE['aluno'])) {
+        header('location: index.php');
     }
 ?>
-
-
 
 <!doctype html>
 <html lang="pt-br">
@@ -155,10 +148,7 @@
                             </div>
                             <form id="atualizarProfessor">
                                 <div class="modal-body text-start">
-                                    <div class="mb-3">
-                                        <label for="EidProfessor">ID</label>
-                                        <input type="text" name="EidProfessor" id="EidProfessor" class="form-control" readonly>
-                                    </div>
+                                    <input type="hidden" name="EidProfessor" id="EidProfessor" class="form-control" readonly>
                                     <div class="mb-3">
                                         <label class="form-label" for="Enomeprof">Nome Completo</label>
                                         <input type="text" name="Enomeprof" class="form-control" placeholder="Digite o nome completo" id="Enomeprof" required>
@@ -305,10 +295,7 @@
                             </div>
                             <form id="atualizarAluno">
                                 <div class="modal-body text-start">
-                                    <div class="mb-3">
-                                        <label for="EidAluno">ID</label>
-                                        <input type="text" name="EidAluno" id="EidAluno" class="form-control" readonly>
-                                    </div>
+                                    <input type="hidden" name="EidAluno" id="EidAluno" class="form-control" readonly>
                                     <div class="mb-3">
                                         <label class="form-label" for="Enomealuno">Nome Completo</label>
                                         <input type="text" name="Enomealuno" class="form-control" placeholder="Digite o nome completo" id="Enomealuno" required>
@@ -460,10 +447,7 @@
                             </div>
                             <form id="atualizarAula">
                                 <div class="modal-body text-start">
-                                    <div class="mb-3">
-                                        <label for="EidAula">ID</label>
-                                        <input type="text" name="EidAula" id="EidAula" class="form-control" readonly>
-                                    </div>
+                                    <input type="hidden" name="EidAula" id="EidAula" class="form-control" readonly>
                                     <div class="mb-3">
                                         <label class="form-label" for="Etitulo">Título da aula</label>
                                         <input type="text" name="Etitulo" class="form-control" placeholder="Digite o título da aula" id="Etitulo" required>
@@ -487,98 +471,135 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    <button type="submit" class="btn btn-primary">Atualizar aluno</button>
+                                    <button type="submit" class="btn btn-primary">Atualizar aula</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Presença -->
+            <!-- PRESENÇA -->
 
-    <div class="modal fade text-dark modal-xl" id="modalpresenca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5">Presença</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-start">
-                <?php 
-                    
-                    $sql = "SELECT presenca.idPresenca, alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula";
-                    $res = $conn->query($sql);
-                    $dados ='';
-                    foreach($res as $aula){
-                    $dados .= "<tr>
-                                <td>".$aula['Nome']."</td>
-                                <td>".$aula['Titulo']."</td>
-                                <td>".$aula['Professor']."</td>
-                                <td>".$aula['Curso']."</td>
-                                <td>".$aula['Data']."</td>
-                                <td>".$aula['Status']."</td>
-                                <td>
-                                    <a><button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"alterarPresenca btn btn-primary\">Alterar status</button></a>
-                                </td>
-                            </tr>";
-                    }
-                ?>
-                    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Aula</th>
-                                <th>Professor</th>
-                                <th>Curso</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?=$dados?>
-                        </tbody>
-                    </table>
+            <div class="modal fade text-dark modal-xl" id="modalpresenca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Presença</h1>
+                            <button type="button" class="adicionarPresenca btn btn-success ms-3" data-bs-toggle="modal" data-bs-target="#modaladdpresenca">Adicionar aluno</button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                        <?php 
+                            $sql = "SELECT presenca.idPresenca, alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula";
+                            $res = $conn->query($sql);
+                            $dados ='';
+                            foreach($res as $aula){
+                            $dados .= "<tr>
+                                        <td>".$aula['Nome']."</td>
+                                        <td>".$aula['Titulo']."</td>
+                                        <td>".$aula['Professor']."</td>
+                                        <td>".$aula['Curso']."</td>
+                                        <td>".$aula['Data']."</td>
+                                        <td>".$aula['Status']."</td>
+                                        <td>
+                                            <button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"alterarPresenca btn btn-primary\">Alterar status</button>
+                                            <button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"excluirPresenca btn btn-danger\">Excluir aluno</button>
+                                        </td>
+                                    </tr>";
+                            }
+                        ?>
+                            <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive tabela-presenca">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Aula</th>
+                                        <th>Professor</th>
+                                        <th>Curso</th>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?=$dados?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="modal fade text-dark" id="modaladdpresenca" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Presença</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form id="addAlunoPresenca">
+                            <div class="modal-body text-start">
+                                <input type="hidden" name="idAulaPresenca" id="idAulaPresenca" class="form-control" readonly>
+                                <div class="mb-3">
+                                    <label class="form-label" for="pAluno">Aluno</label>
+                                    <select name="pAluno" id="pAluno" class="form-control">
+                                        <option value="0">Escolha o aluno</option>
+                                        <?php
+                                            $query = 'SELECT * FROM alunos ORDER BY Nome';
+                                            $res = $conn->query($query);
+                                            while($row = $res->fetch_object()){
+                                                echo '<option value="'.$row->idAluno.'">'.$row->Nome.'</option>';
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Adicionar aluno</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRESENÇA-ALUNOS -->
+
+            <?php 
+
+            if(isset($_COOKIE['aluno'])){
+                $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']."";
+                $res = $conn->query($sql);
+                $dados ='';
+                foreach($res as $aula){
+                $dados .= "<tr>
+                            <td>".$aula['Nome']."</td>
+                            <td>".$aula['Titulo']."</td>
+                            <td>".$aula['Professor']."</td>
+                            <td>".$aula['Curso']."</td>
+                            <td>".$aula['Data']."</td>
+                            <td>".$aula['Status']."</td>
+                        </tr>";
+                }
+            }
+                            
+
+            ?>
+            <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca-alunos">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Aula</th>
+                        <th>Professor</th>
+                        <th>Curso</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?=$dados?>
+                </tbody>
+            </table> 
         </div>
-    </div>
-
-    <!-- PRESENÇA- ALUNOS -->
-
-    <?php 
-                    
-    $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula";
-    $res = $conn->query($sql);
-    $dados ='';
-    foreach($res as $aula){
-    $dados .= "<tr>
-                <td>".$aula['Nome']."</td>
-                <td>".$aula['Titulo']."</td>
-                <td>".$aula['Professor']."</td>
-                <td>".$aula['Curso']."</td>
-                <td>".$aula['Data']."</td>
-                <td>".$aula['Status']."</td>
-            </tr>";
-    }
-    ?>
-    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca-alunos">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Aula</th>
-                <th>Professor</th>
-                <th>Curso</th>
-                <th>Data</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?=$dados?>
-        </tbody>
-    </table>
+    </div> 
 </body>
 </html>

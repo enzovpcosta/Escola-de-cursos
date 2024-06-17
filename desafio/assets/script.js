@@ -29,7 +29,7 @@ $(document).ready(function() {
                     $('.alertLogin').show()
                     return
                 } else if(response.status == 'success'){
-                    $.cookie(response.tipo, response.id, {expires: 7})
+                    Cookies.set(response.tipo, response.id)
                     location.href = "dashboard.php"
                 }
             }
@@ -40,13 +40,14 @@ $(document).ready(function() {
 
     $('#logout').click(function (e) { 
         e.preventDefault();
-        
-        $.removeCookie("")
+        Cookies.remove('professor');
+        Cookies.remove('aluno');
         location.href = "index.php"
         return
     });
 
-    if($.session.get("tipo") == 'professor'){
+
+    if(Cookies.get('professor')){
         $('#tabela-professores').hide();
         $('#tabela-alunos').hide();
         $('#tabela-aulas').hide();
@@ -223,7 +224,7 @@ $(document).ready(function() {
                     if(response == true){
                         console.log("Success")
                         Swal.fire({
-                            title: "Aluno cadastrado com successo!",
+                            title: "Aluno cadastrado com sucesso!",
                             icon: "success"
                         });
                         $('#cadastrarAluno').modal('hide')
@@ -286,7 +287,7 @@ $(document).ready(function() {
                     if(response == true){
                         console.log("Success")
                         Swal.fire({
-                            title: "Aluno atualizado com successo!",
+                            title: "Aluno atualizado com sucesso!",
                             icon: "success"
                         });
                         $('#editarAluno').modal('hide');
@@ -376,7 +377,7 @@ $(document).ready(function() {
                     if(response == true){
                         console.log("Success")
                         Swal.fire({
-                            title: "Aula cadastrada com successo!",
+                            title: "Aula cadastrada com sucesso!",
                             icon: "success"
                         });
                         $('#cadastrarAula').modal('hide')
@@ -439,7 +440,7 @@ $(document).ready(function() {
                     if(response == true){
                         console.log("Success")
                         Swal.fire({
-                            title: "Aula atualizada com successo!",
+                            title: "Aula atualizada com sucesso!",
                             icon: "success"
                         });
                         $('#editarAula').modal('hide');
@@ -491,6 +492,54 @@ $(document).ready(function() {
             });
         });
 
+        $(document).on('click', '.presencaBtn', function () {
+            var valor = $(this).val()
+            $('#idAulaPresenca').val(valor)
+        });
+
+        $("#addAlunoPresenca").submit(function (e) { 
+            e.preventDefault();
+
+            if($('#pAluno').val() == 0){
+                Swal.fire({
+                    icon: "warning",
+                    title: "Selecione algum aluno!"
+                }); 
+            } else {
+
+            var formData = new FormData(this)
+            formData.append("adicionar_aluno", true)
+
+            $.ajax({
+                type: "POST",
+                url: "presenca.php",
+                dataType: "json",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if(response == true){
+                        Swal.fire({
+                            title: "Aluno adicionado com sucesso!",
+                            icon: "success"
+                        });
+                        $('#modaladdpresenca').modal('hide')
+                        $('#modalpresenca').modal('show')
+                        $('.tabela-presenca').load(location.href + ' .tabela-presenca')
+                    } else {
+                        Swal.fire({
+                            title: "Não foi possível realizar está ação!",
+                            text: "Aluno já foi adicionado",
+                            icon: "error"
+                        });
+                    }
+                }
+
+            });
+
+            }
+        });
+
         $(document).on('click','.alterarPresenca', function () {
             Swal.fire({
                 title: "Você tem certeza?",
@@ -519,7 +568,42 @@ $(document).ready(function() {
                             text: "O status foi alterado!",
                             icon: "success"
                             });
-                            $('#tabela-presenca').load(location.href + " #tabela-presenca")
+                            $('.tabela-presenca').load(location.href + " .tabela-presenca")
+                        }
+                    }); 
+                }
+            });
+        });
+
+        $(document).on('click','.excluirPresenca', function () {
+            Swal.fire({
+                title: "Deseja excluir o aluno selecionado?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#228B22",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sim, excluir!",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var idPresenca = $(this).val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "Presenca.php",
+                        data: {
+                            'excluir_presenca': true,
+                            'idPresenca': idPresenca
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            Swal.fire({
+                            title: "Excluído!",
+                            text: "O aluno foi excluído!",
+                            icon: "success"
+                            });
+                            $('.tabela-presenca').load(location.href + " .tabela-presenca")
                         }
                     }); 
                 }
