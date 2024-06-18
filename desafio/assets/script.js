@@ -16,6 +16,7 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function (response) {
+
                 if(response.status == 'email'){
                     $('.alertLogin').text(response.message)
                     $('.alertLogin').show()
@@ -493,8 +494,25 @@ $(document).ready(function() {
         });
 
         $(document).on('click', '.presencaBtn', function () {
-            var valor = $(this).val()
-            $('#idAulaPresenca').val(valor)
+            var idAula = $(this).val()
+            $('#idAulaPresenca').val(idAula)
+
+            $.ajax({
+                type: "GET",
+                url: "Presenca.php?idAula=" + idAula,
+                success: function (response) {
+                    console.log(response)
+                    response = JSON.parse(response)
+                    if (response.status == '404'){
+                        $('#modalpresenca').modal('show')
+                        return
+                    } else {
+                        $('#dados').html(response.data)
+                        $('#modalpresenca').modal('show')
+                    }
+                }
+            });
+            
         });
 
         $("#addAlunoPresenca").submit(function (e) { 

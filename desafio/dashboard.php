@@ -63,7 +63,7 @@
                     }
                 ?>
                 <section id="tabela-professores">
-                    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
+                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -210,7 +210,7 @@
                     }
                 ?>
                 <section id="tabela-alunos">
-                    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
+                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -346,14 +346,14 @@
                                 <td>".$aula['Curso']."</td>
                                 <td class=\"acao\">
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
-                                    <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\"data-bs-toggle=\"modal\" data-bs-target=\"#modalpresenca\">Presença</button>
+                                    <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\">Presença</button>
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
                                 </td>
                             </tr>";
                     }
                 ?>
                 <section id="tabela-aulas">
-                    <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive">
+                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -404,6 +404,7 @@
                                                 $query = 'SELECT * FROM professores';
                                                 $res = $conn->query($query);
                                                 while($row = $res->fetch_object()){
+
                                                     echo '<option value="'.$row->Nome.'">'.$row->Nome.'</option>';
                                                 }                                            
                                             ?>
@@ -418,7 +419,7 @@
                                         <select name="curso" id="curso" class="form-control">
                                             <option value="0">Escolha o curso</option>
                                             <?php 
-                                                $query = 'SELECT * FROM professores';
+                                                $query = 'SELECT DISTINCT Curso FROM professores';
                                                 $res = $conn->query($query);
                                                 while($row = $res->fetch_object()){
                                                     echo '<option value="'.$row->Curso.'">'.$row->Curso.'</option>';
@@ -509,7 +510,7 @@
                                     </tr>";
                             }
                         ?>
-                            <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive tabela-presenca">
+                            <table class="table mt-3 text-center table-hover border-dark table-responsive tabela-presenca">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
@@ -521,8 +522,8 @@
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?=$dados?>
+                                <tbody id="dados">
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -571,23 +572,28 @@
                 $res = $conn->query($sql);
                 $dados ='';
                 foreach($res as $aula){
+                    if($aula['Status'] == 'Presente'){
+                        $td = "<td class=\"bg-success-subtle\">".$aula['Status']."</td>";
+                    } else {
+                        $td = "<td class=\"bg-danger-subtle\">".$aula['Status']."</td>";
+                    }
+                    
+                
                 $dados .= "<tr>
-                            <td>".$aula['Nome']."</td>
                             <td>".$aula['Titulo']."</td>
                             <td>".$aula['Professor']."</td>
                             <td>".$aula['Curso']."</td>
-                            <td>".$aula['Data']."</td>
-                            <td>".$aula['Status']."</td>
+                            <td>".$aula['Data']."</td>"
+                            .$td."
                         </tr>";
                 }
             }
                             
 
             ?>
-            <table class="table mt-3 text-center table-bordered table-hover border-dark table-responsive" id="tabela-presenca-alunos">
+            <table class="table mt-3 text-center table-hover border-dark table-responsive" id="tabela-presenca-alunos">
                 <thead>
                     <tr>
-                        <th>Nome</th>
                         <th>Aula</th>
                         <th>Professor</th>
                         <th>Curso</th>

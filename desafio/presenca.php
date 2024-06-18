@@ -38,4 +38,47 @@ if(isset($_POST['alterar_status'])){
     echo json_encode(true);
 }
 
+if(isset($_GET['idAula'])){
+    $idAula = $_GET['idAula'];
+
+    $sql = "SELECT presenca.idPresenca, alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE aulas.idAula =".$idAula;
+
+    $res = $conn->query($sql);
+    $qtd = $res->num_rows;
+    if($qtd > 0){
+
+        $dados ='';
+        foreach($res as $aula){
+        $dados .= "<tr>
+                    <td>".$aula['Nome']."</td>
+                    <td>".$aula['Titulo']."</td>
+                    <td>".$aula['Professor']."</td>
+                    <td>".$aula['Curso']."</td>
+                    <td>".$aula['Data']."</td>
+                    <td>".$aula['Status']."</td>
+                    <td>
+                        <button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"alterarPresenca btn btn-primary\">Alterar status</button>
+                        <button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"excluirPresenca btn btn-danger\">Excluir aluno</button>
+                    </td>
+                </tr>";
+        }
+
+
+        $res = [
+            'status' => 200,
+            'msg' => 'success',
+            'data' => $dados
+        ];
+        echo json_encode($res);
+
+    } else {
+        $res = [
+            'status' => 404,
+            'msg' => 'error'
+        ];
+        echo json_encode($res);
+    }
+    
+}
+
 ?>

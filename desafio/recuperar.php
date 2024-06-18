@@ -64,13 +64,15 @@
             <input type="email" class="form-control" name="email" id="email" placeholder="Digite seu e-mail">
         </div>
         <div class="form-check-inline">
-            <input type="radio" name="tipo" value="Professor" checked> Professor
+            <input type="radio" class="btn-check" name="tipo" id="option1" value="Professor" autocomplete="off" checked>
+            <label class="btn btn-outline-primary" for="option1">Professor</label>
         </div>
         <div class="form-check-inline">
-            <input type="radio" name="tipo" value="Aluno"> Aluno
+            <input type="radio" class="btn-check" name="tipo" id="option2" value="Aluno" autocomplete="off">
+            <label class="btn btn-outline-primary" for="option2">Aluno</label>
         </div>
-        <div class="d-flex justify-content-between align-items-center py-3">
-            <a href="index.php" class="btn btn-primary">Voltar</a>
+        <div class="d-flex justify-content-between align-items-center my-4">
+            <a href="index.php" class="btn btn-danger">Voltar</a>
             <button style="width: 150px;" type="submit" class="btn btn-success" name="recuperar">Recuperar</button>
         </div>
       </form>
