@@ -1,3 +1,10 @@
+<?php 
+    
+    if(isset($_COOKIE['professor']) || isset($_COOKIE['aluno'])) {
+        header('location: dashboard.php');
+    }
+?>
+
 <!doctype html>
 <html lang="pt-br">
   <head>

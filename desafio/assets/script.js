@@ -349,6 +349,40 @@ $(document).ready(function() {
             $('#tabela-aulas').show();
         });
 
+        $(document).on('click', '#btnNovaAula', function () {
+            $.ajax({
+                type: "POST",
+                url: "Aulas.php",
+                data:{
+                    modal_aula: 'true'
+                },
+                success: function (response) {
+
+                response = JSON.parse(response)
+
+                // console.log(response.professor)
+                // console.log(response.curso)
+
+                $('#professor').html('<option value="0">Escolha o professor</option>' + response.professor)
+                $('#curso').html('<option value="0">Escolha o curso</option>' + response.curso)
+                $('#cadastrarAula').modal('show')
+                }
+            });
+        });
+
+        $(document).on('change','#professor', function () {
+            var id = $(this).val();
+            $.ajax({
+                type: "GET",
+                url: "Aulas.php?idProfessor=" + id,
+                success: function (response) {
+                    res = JSON.parse(response)
+
+                    $('#curso').val(res.dados.Curso);
+                }
+            });
+        });
+
         $('#novaAula').submit(function (e) { 
             e.preventDefault();
 
@@ -481,12 +515,22 @@ $(document).ready(function() {
                         },
                         dataType: "json",
                         success: function (response) {
-                            Swal.fire({
-                            title: "Excluído!",
-                            text: "A aula foi excluída!",
-                            icon: "success"
+                            if(response == true){
+                                Swal.fire({
+                                title: "Excluído!",
+                                text: "A aula foi excluída!",
+                                icon: "success"
+                                });
+                                $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                            } else {
+                                Swal.fire({
+                                icon: "error",
+                                title: "Ação não executada!"
                             });
-                            $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                            }
+                            
+
+                            
                         }
                     }); 
                 }
@@ -501,9 +545,12 @@ $(document).ready(function() {
                 type: "GET",
                 url: "Presenca.php?idAula=" + idAula,
                 success: function (response) {
-                    console.log(response)
+                    // console.log(response)
+
                     response = JSON.parse(response)
+
                     if (response.status == '404'){
+                        $('#dados').html('<tr><td colspan="8">Nenhum aluno foi adicionado!</td></tr>')
                         $('#modalpresenca').modal('show')
                         return
                     } else {
@@ -513,6 +560,26 @@ $(document).ready(function() {
                 }
             });
             
+        });
+
+        $(document).on('click', '#btnAddAluno', function () {
+            $.ajax({
+                type: "POST",
+                url: "Presenca.php",
+                data:{
+                    modal_addAluno: 'true'
+                },
+                success: function (response) {
+
+                response = JSON.parse(response)
+
+                // console.log(response.aluno)
+
+                $('#pAluno').html('<option value="0">Escolha o aluno</option>' + response.aluno)
+                $('#modalpresenca').modal('hide')
+                $('#modaladdpresenca').modal('show')
+                }
+            });
         });
 
         $("#addAlunoPresenca").submit(function (e) { 
@@ -530,9 +597,9 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "presenca.php",
-                dataType: "json",
+                url: "Presenca.php",
                 data: formData,
+                dataType: "json",
                 processData: false,
                 contentType: false,
                 success: function (response) {
@@ -542,8 +609,7 @@ $(document).ready(function() {
                             icon: "success"
                         });
                         $('#modaladdpresenca').modal('hide')
-                        $('#modalpresenca').modal('show')
-                        $('.tabela-presenca').load(location.href + ' .tabela-presenca')
+                        $('#tabela-aulas').load(location.href + " #tabela-aulas")
                     } else {
                         Swal.fire({
                             title: "Não foi possível realizar está ação!",
@@ -586,7 +652,8 @@ $(document).ready(function() {
                             text: "O status foi alterado!",
                             icon: "success"
                             });
-                            $('.tabela-presenca').load(location.href + " .tabela-presenca")
+                            $('#modalpresenca').modal('hide')
+                            $('#tabela-aulas').load(location.href + " #tabela-aulas")
                         }
                     }); 
                 }
@@ -621,7 +688,7 @@ $(document).ready(function() {
                             text: "O aluno foi excluído!",
                             icon: "success"
                             });
-                            $('.tabela-presenca').load(location.href + " .tabela-presenca")
+                            $('#modalpresenca').modal('hide')
                         }
                     }); 
                 }

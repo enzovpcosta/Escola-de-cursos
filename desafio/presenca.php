@@ -63,7 +63,6 @@ if(isset($_GET['idAula'])){
                 </tr>";
         }
 
-
         $res = [
             'status' => 200,
             'msg' => 'success',
@@ -79,6 +78,23 @@ if(isset($_GET['idAula'])){
         echo json_encode($res);
     }
     
+}
+
+if(isset($_POST['modal_addAluno']) == 'true'){
+    $query = 'SELECT * FROM alunos';
+    $res = $conn->query($query);
+    $aluno = '';
+    foreach($res as $row){
+        $aluno .= "<option value=\"".$row['idAluno']."\">".$row['Nome']."</option>";
+    }
+
+    $res = [
+        'status' => 200,
+        'msg' => 'success',
+        'aluno' => $aluno
+    ];
+
+    echo json_encode($res);                               
 }
 
 ?>

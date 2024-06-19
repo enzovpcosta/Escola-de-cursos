@@ -69,3 +69,39 @@ if(isset($_POST['nova_aula'])){
         echo json_encode(true);
     }
 }
+
+if(isset($_POST['modal_aula']) == 'true'){
+    $query = 'SELECT * FROM professores';
+    $res = $conn->query($query);
+    $professor = '';
+    foreach($res as $row){
+        $professor .= "<option value=\"".$row['Nome']."\">".$row['Nome']."</option>";
+    }
+
+    $query = 'SELECT DISTINCT Curso FROM professores';
+    $res = $conn->query($query);
+    $curso = '';
+    foreach($res as $row){
+        $curso .= "<option value=\"".$row['Curso']."\">".$row['Curso']."</option>";
+    }
+    $res = [
+        'status' => 200,
+        'msg' => 'success',
+        'professor' => $professor,
+        'curso' => $curso
+    ];
+    echo json_encode($res);                               
+}
+
+if(isset($_GET['idProfessor'])){
+    $idProfessor = $_GET['idProfessor'];
+
+    $query = "SELECT * FROM professores WHERE Nome='$idProfessor'";
+    $res = $conn->query($query);
+    $curso = mysqli_fetch_array($res);
+
+    $res = [
+        'dados' => $curso
+    ];
+    echo json_encode($res);
+}

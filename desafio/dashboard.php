@@ -11,14 +11,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Escola de cursos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="assets/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-    <script src="assets/jquery.session.js"></script>
     <script src="assets/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
   </head>
   <body class="bg-dark text-light">
       <div style="height: 100vh;" class="d-flex justify-content-between gap-3">
@@ -370,7 +370,7 @@
                             <tr class="new">
                                 <th class="text-center" colspan=7>
                                     <a class="btn-cadastrar-aula">
-                                        <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarAula">Nova aula</button>
+                                        <button class="btn btn-success my-2" id="btnNovaAula">Nova aula</button>
                                     </a>
                                 </th>
                             </tr>
@@ -399,15 +399,8 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="professor">Professor</label>
                                         <select name="professor" id="professor" class="form-control">
-                                            <option value="0">Escolha o professor</option>
-                                            <?php 
-                                                $query = 'SELECT * FROM professores';
-                                                $res = $conn->query($query);
-                                                while($row = $res->fetch_object()){
-
-                                                    echo '<option value="'.$row->Nome.'">'.$row->Nome.'</option>';
-                                                }                                            
-                                            ?>
+                                            
+                                            
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -417,14 +410,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="curso">Curso</label>
                                         <select name="curso" id="curso" class="form-control">
-                                            <option value="0">Escolha o curso</option>
-                                            <?php 
-                                                $query = 'SELECT DISTINCT Curso FROM professores';
-                                                $res = $conn->query($query);
-                                                while($row = $res->fetch_object()){
-                                                    echo '<option value="'.$row->Curso.'">'.$row->Curso.'</option>';
-                                                }                                            
-                                            ?>
+                                           
                                         </select>
                                     </div>
                                 </div>
@@ -487,7 +473,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5">Presença</h1>
-                            <button type="button" class="adicionarPresenca btn btn-success ms-3" data-bs-toggle="modal" data-bs-target="#modaladdpresenca">Adicionar aluno</button>
+                            <button type="button" class="adicionarPresenca btn btn-success ms-3" id="btnAddAluno">Adicionar aluno</button>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body text-start">
@@ -543,14 +529,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="pAluno">Aluno</label>
                                     <select name="pAluno" id="pAluno" class="form-control">
-                                        <option value="0">Escolha o aluno</option>
-                                        <?php
-                                            $query = 'SELECT * FROM alunos ORDER BY Nome';
-                                            $res = $conn->query($query);
-                                            while($row = $res->fetch_object()){
-                                                echo '<option value="'.$row->idAluno.'">'.$row->Nome.'</option>';
-                                            }
-                                        ?>
+                                
                                     </select>
                                 </div>
                             </div>
