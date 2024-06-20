@@ -1,6 +1,6 @@
 <?php 
     
-    if(!isset($_COOKIE['professor']) && !isset($_COOKIE['aluno'])) {
+    if(!isset($_COOKIE['admin']) && !isset($_COOKIE['professor']) && !isset($_COOKIE['aluno'])) {
         header('location: index.php');
     }
 ?>
@@ -52,10 +52,10 @@
                                 <td>".$professor['Nome']."</td>
                                 <td>".$professor['CPF']."</td>
                                 <td>".$professor['Telefone']."</td>
-                                <td>".$professor['Nascimento']."</td>
+                                <td>".date('d/m/Y', strtotime($professor['Nascimento']))."</td>
                                 <td>".$professor['Curso']."</td>
                                 <td>".$professor['Email']."</td>
-                                <td>
+                                <td class=\"acaoP\">
                                     <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"editarProfessorBtn btn btn-primary\">Editar</button></a>
                                     <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"excluirProfessorBtn btn btn-danger\">Excluir</button></a>
                                 </td>
@@ -73,12 +73,12 @@
                                 <th>Nascimento</th>
                                 <th>Curso</th>
                                 <th>E-mail</th>
-                                <th>Ações</th>
+                                <th class="acaoP">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr>
+                            <tr class="newP">
                                 <th class="text-center" colspan=8>
                                     <a class="btn-cadastrar-professor">
                                         <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarProfessor">Novo professor</button>
@@ -199,10 +199,10 @@
                                 <td>".$aluno['Nome']."</td>
                                 <td>".$aluno['CPF']."</td>
                                 <td>".$aluno['Telefone']."</td>
-                                <td>".$aluno['Nascimento']."</td>
+                                <td>".date('d/m/Y', strtotime($aluno['Nascimento']))."</td>
                                 <td>".$aluno['Responsavel']."</td>
                                 <td>".$aluno['Email']."</td>
-                                <td>
+                                <td class=\"acaoP\">
                                     <a><button type=\"button\" value=\"".$aluno['idAluno']."\" class=\"editarAlunoBtn btn btn-primary\">Editar</button></a>
                                     <a><button type=\"button\" value=\"".$aluno['idAluno']."\" class=\"excluirAlunoBtn btn btn-danger\">Excluir</button></a>
                                 </td>
@@ -220,12 +220,12 @@
                                 <th>Nascimento</th>
                                 <th>Responsável</th>
                                 <th>E-mail</th>
-                                <th>Ações</th>
+                                <th class="acaoP">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr>
+                            <tr class="newP">
                                 <th class="text-center" colspan=8>
                                     <a class="btn-cadastrar-aluno">
                                         <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarAluno">Novo aluno</button>
@@ -332,17 +332,17 @@
 
                 <!-- AULAS ------------------------------------------------------------------------->
                 <?php
-
-                $query = 'SELECT * FROM aulas';
-                $res = $conn->query($query);
-                $dados ='';
-                foreach($res as $aula){
-                $dados .= "<tr>
+                if(isset($_COOKIE['admin'])){
+                    $query = 'SELECT * FROM aulas';
+                    $res = $conn->query($query);
+                    $dados ='';
+                    foreach($res as $aula){
+                    $dados .= "<tr>
                                 <td>".$aula['idAula']."</td>
                                 <td>".$aula['Titulo']."</td>
                                 <td>".$aula['Descricao']."</td>
                                 <td>".$aula['Professor']."</td>
-                                <td>".$aula['Data']."</td>
+                                <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
                                 <td>".$aula['Curso']."</td>
                                 <td class=\"acao\">
                                     <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
@@ -351,6 +351,56 @@
                                 </td>
                             </tr>";
                     }
+
+                } else if(isset($_COOKIE['professor'])){
+                    $query = 'SELECT * FROM professores WHERE idProfessor='.$_COOKIE['professor'];
+                    $res = $conn->query($query);
+                    $prof = $res->fetch_object();
+                    $nome = $prof->Nome;
+                    $query = "SELECT * FROM aulas WHERE Professor='$nome'";
+                    $res = $conn->query($query);
+                    $qtd = $res->num_rows;
+                    $dados ='';
+                        if($qtd == 0){
+                            $dados = '';
+                        } else {
+                            foreach($res as $aula){
+                            $dados .= "<tr>
+                                        <td>".$aula['idAula']."</td>
+                                        <td>".$aula['Titulo']."</td>
+                                        <td>".$aula['Descricao']."</td>
+                                        <td>".$aula['Professor']."</td>
+                                        <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
+                                        <td>".$aula['Curso']."</td>
+                                        <td class=\"acao\">
+                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
+                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\">Presença</button>
+                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
+                                        </td>
+                                    </tr>";
+                            }
+                        }
+                } else {
+                    $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']." AND presenca IS NOT NULL";
+                    $res = $conn->query($sql);
+                    $dados ='';
+                    foreach($res as $aula){
+                        $dados .= "<tr>
+                                    <td>".$aula['idAula']."</td>
+                                    <td>".$aula['Titulo']."</td>
+                                    <td>".$aula['Descricao']."</td>
+                                    <td>".$aula['Professor']."</td>
+                                    <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
+                                    <td>".$aula['Curso']."</td>
+                                    <td class=\"acao\">
+                                        <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
+                                        <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\">Presença</button>
+                                        <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
+                                    </td>
+                                </tr>";
+                        }
+                }
+                
                 ?>
                 <section id="tabela-aulas">
                     <table class="table mt-3 text-center table-hover border-dark table-responsive">
@@ -404,14 +454,14 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label" for="data">Data</label>
-                                        <input type="date" max="9999-12-31" name="data" class="form-control" id="data" required>
-                                    </div>
-                                    <div class="mb-3">
                                         <label class="form-label" for="curso">Curso</label>
                                         <select name="curso" id="curso" class="form-control">
                                            
                                         </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="data">Data</label>
+                                        <input type="date" max="9999-12-31" name="data" class="form-control" id="data" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -487,7 +537,7 @@
                                         <td>".$aula['Titulo']."</td>
                                         <td>".$aula['Professor']."</td>
                                         <td>".$aula['Curso']."</td>
-                                        <td>".$aula['Data']."</td>
+                                        <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
                                         <td>".$aula['Status']."</td>
                                         <td>
                                             <button type=\"button\" value=\"".$aula['idPresenca']."\" class=\"alterarPresenca btn btn-primary\">Alterar status</button>
@@ -562,7 +612,7 @@
                             <td>".$aula['Titulo']."</td>
                             <td>".$aula['Professor']."</td>
                             <td>".$aula['Curso']."</td>
-                            <td>".$aula['Data']."</td>"
+                            <td>".date('d/m/Y', strtotime($aula['Data']))."</td>"
                             .$td."
                         </tr>";
                 }

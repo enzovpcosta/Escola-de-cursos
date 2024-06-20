@@ -20,6 +20,15 @@
                 $email = $conn->real_escape_string($_POST['emailLogin']);
                 $senha = $conn->real_escape_string($_POST['senhaLogin']);
 
+                if($email == 'admin' && $senha = 'admin'){
+                    $res = [
+                        'status' => 'admin',
+                        'tipo' => 'admin'
+                    ];
+                    echo json_encode($res);
+                    exit;
+                }
+
                 if ($_POST['tipo'] == 'Professor'){
                     $query = 'SELECT * FROM professores WHERE Email = \''.$email.'\' AND Senha = \''.$senha.'\'';
                     $result = $conn->query($query);

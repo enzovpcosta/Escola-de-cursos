@@ -4,6 +4,8 @@ require 'config.php';
 
 if(isset($_POST['excluir_aula'])){
     $id = $_POST['idAula'];
+    $query = 'DELETE FROM presenca WHERE idAula='.$id;
+    $res = $conn->query($query);
     $query = 'DELETE FROM aulas WHERE idAula='.$id;
     $res = $conn->query($query);
     echo json_encode(true);

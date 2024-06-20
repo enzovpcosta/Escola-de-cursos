@@ -58,7 +58,6 @@ if(isset($_GET['idProfessor'])){
 
 if(isset($_POST['novo_professor'])){
     if(isset($_POST['nomeprof'],$_POST['cpfprof'],$_POST['telprof'],$_POST['nascprof'],$_POST['cursoprof'],$_POST['emailprof'],$_POST['senhaprof'])){
-    
         $nome = $_POST['nomeprof'];
         $cpf = $_POST['cpfprof'];
         $tel = $_POST['telprof'];
