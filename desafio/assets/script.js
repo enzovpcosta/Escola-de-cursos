@@ -269,7 +269,6 @@ $(document).ready(function() {
                         $('#Eemailaluno').val(res.data.Email);
                         $('#editarAluno').modal('show');
                     }
-
                 }
             });
         });
@@ -335,13 +334,13 @@ $(document).ready(function() {
                             title: "Excluído!",
                             text: "O aluno foi excluído!",
                             icon: "success"
-                            });
+                            })
                             $('#tabela-alunos').load(location.href + " #tabela-alunos")
                         }
-                    }); 
+                    });
                 }
-            });
-        });
+            })
+        })
 
         //AULAS ---------------------------------------------------
         $('#aulas').click(function (e) { 
@@ -361,14 +360,14 @@ $(document).ready(function() {
                 },
                 success: function (response) {
 
-                response = JSON.parse(response)
+                    response = JSON.parse(response)
 
-                // console.log(response.professor)
-                // console.log(response.curso)
+                    // console.log(response.professor)
+                    // console.log(response.curso)
 
-                $('#professor').html('<option value="0">Escolha o professor</option>' + response.professor)
-                $('#curso').html('<option value="0">Escolha o curso</option>' + response.curso)
-                $('#cadastrarAula').modal('show')
+                    $('#professor').html('<option value="0">Escolha o professor</option>' + response.professor)
+                    $('#curso').html('<option value="0">Escolha o curso</option>' + response.curso)
+                    $('#cadastrarAula').modal('show')
                 }
             });
         });
@@ -451,9 +450,9 @@ $(document).ready(function() {
                         $('#EidAula').val(res.data.idAula);
                         $('#Etitulo').val(res.data.Titulo);
                         $('#Edescricao').val(res.data.Descricao);
-                        $('#Eprofessor').val(res.data.Professor);
+                        $('#Eprofessor').html('<option value="'+res.data.Professor+'">'+res.data.Professor+'</option>');
                         $('#Edata').val(res.data.Data);
-                        $('#Ecurso').val(res.data.Curso);
+                        $('#Ecurso').html('<option value="'+res.data.Curso+'">'+res.data.Curso+'</option>');
                         $('#editarAula').modal('show');
                     }
 
@@ -523,22 +522,19 @@ $(document).ready(function() {
                                 title: "Excluído!",
                                 text: "A aula foi excluída!",
                                 icon: "success"
-                                });
+                                })
                                 $('#tabela-aulas').load(location.href + " #tabela-aulas")
                             } else {
                                 Swal.fire({
                                 icon: "error",
                                 title: "Ação não executada!"
-                            });
+                                })
                             }
-                            
-
-                            
                         }
-                    }); 
+                    })
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click', '.presencaBtn', function () {
             var idAula = $(this).val()
@@ -561,9 +557,8 @@ $(document).ready(function() {
                         $('#modalpresenca').modal('show')
                     }
                 }
-            });
-            
-        });
+            })
+        })
 
         $(document).on('click', '#btnAddAluno', function () {
             $.ajax({
@@ -574,16 +569,16 @@ $(document).ready(function() {
                 },
                 success: function (response) {
 
-                response = JSON.parse(response)
+                    response = JSON.parse(response)
 
-                // console.log(response.aluno)
+                    // console.log(response.aluno)
 
-                $('#pAluno').html('<option value="0">Escolha o aluno</option>' + response.aluno)
-                $('#modalpresenca').modal('hide')
-                $('#modaladdpresenca').modal('show')
+                    $('#pAluno').html('<option value="0">Escolha o aluno</option>' + response.aluno)
+                    $('#modalpresenca').modal('hide')
+                    $('#modaladdpresenca').modal('show')
                 }
-            });
-        });
+            })
+        })
 
         $("#addAlunoPresenca").submit(function (e) { 
             e.preventDefault();
@@ -594,38 +589,35 @@ $(document).ready(function() {
                     title: "Selecione algum aluno!"
                 }); 
             } else {
+                var formData = new FormData(this)
+                formData.append("adicionar_aluno", true)
 
-            var formData = new FormData(this)
-            formData.append("adicionar_aluno", true)
-
-            $.ajax({
-                type: "POST",
-                url: "Presenca.php",
-                data: formData,
-                dataType: "json",
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if(response == true){
-                        Swal.fire({
-                            title: "Aluno adicionado com sucesso!",
-                            icon: "success"
-                        });
-                        $('#modaladdpresenca').modal('hide')
-                        $('#tabela-aulas').load(location.href + " #tabela-aulas")
-                    } else {
-                        Swal.fire({
-                            title: "Não foi possível realizar está ação!",
-                            text: "Aluno já foi adicionado",
-                            icon: "error"
-                        });
+                $.ajax({
+                    type: "POST",
+                    url: "Presenca.php",
+                    data: formData,
+                    dataType: "json",
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if(response == true){
+                            Swal.fire({
+                                title: "Aluno adicionado com sucesso!",
+                                icon: "success"
+                            });
+                            $('#modaladdpresenca').modal('hide')
+                            $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                        } else {
+                            Swal.fire({
+                                title: "Não foi possível realizar está ação!",
+                                text: "Aluno já foi adicionado",
+                                icon: "error"
+                            })
+                        }
                     }
-                }
-
-            });
-
+                })
             }
-        });
+        })
 
         $(document).on('click','.alterarPresenca', function () {
             Swal.fire({
@@ -658,10 +650,10 @@ $(document).ready(function() {
                             $('#modalpresenca').modal('hide')
                             $('#tabela-aulas').load(location.href + " #tabela-aulas")
                         }
-                    }); 
+                    })
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click','.excluirPresenca', function () {
             Swal.fire({
@@ -693,15 +685,15 @@ $(document).ready(function() {
                             });
                             $('#modalpresenca').modal('hide')
                         }
-                    }); 
+                    }) 
                 }
-            });
-        });
-    }else if(Cookies.get('professor')){
+            })
+        })
+    } else if(Cookies.get('professor')){
         $('#tabela-professores').hide();
         $('#tabela-alunos').hide();
         $('#tabela-aulas').hide();
-         $('#tabela-presenca-alunos').hide();
+        $('#tabela-presenca-alunos').hide();
         $('#presenca').hide();
         $('.acaoP').hide();
         $('.newP').hide();
@@ -734,7 +726,7 @@ $(document).ready(function() {
             $('#tabela-alunos').hide();
             $('#tabela-professores').hide();
             $('#tabela-aulas').show();
-        });
+        })
 
         $(document).on('click', '#btnNovaAula', function () {
             $.ajax({
@@ -745,17 +737,24 @@ $(document).ready(function() {
                 },
                 success: function (response) {
 
-                response = JSON.parse(response)
+                    response = JSON.parse(response)
 
-                // console.log(response.professor)
-                // console.log(response.curso)
+                    // console.log(response.professor)
+                    // console.log(response.curso)
 
-                $('#professor').html('<option value="0">Escolha o professor</option>' + response.professor)
-                $('#curso').html('<option value="0">Escolha o curso</option>' + response.curso)
-                $('#cadastrarAula').modal('show')
+                    if(response.tipo == 'professor'){
+                        $('#professor').html(response.professor)
+                        $('#curso').html(response.curso)
+                    } else {
+                    $('#professor').html('<option value="0">Escolha o professor</option>' + response.professor)
+                        $('#curso').html('<option value="0">Escolha o curso</option>' + response.curso)
+                    }
+
+                    $('#cadastrarAula').modal('show') 
+
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('change','#professor', function () {
             var id = $(this).val();
@@ -767,8 +766,8 @@ $(document).ready(function() {
 
                     $('#curso').val(res.dados.Curso);
                 }
-            });
-        });
+            })
+        })
 
         $('#novaAula').submit(function (e) { 
             e.preventDefault();
@@ -784,35 +783,34 @@ $(document).ready(function() {
                     title: "Selecione algum curso!"
                 });
             } else {
+                var formData = new FormData(this)
+                formData.append("nova_aula", true)
 
-            var formData = new FormData(this)
-            formData.append("nova_aula", true)
-
-            $.ajax({
-                type: "POST",
-                url: "Aulas.php",
-                data: formData,
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if(response == true){
-                        console.log("Success")
-                        Swal.fire({
-                            title: "Aula cadastrada com sucesso!",
-                            icon: "success"
-                        });
-                        $('#cadastrarAula').modal('hide')
-                        $('#tabela-aulas').load(location.href + ' #tabela-aulas')
-                        $('#novaAula')[0].reset()
+                $.ajax({
+                    type: "POST",
+                    url: "Aulas.php",
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if(response == true){
+                            console.log("Success")
+                            Swal.fire({
+                                title: "Aula cadastrada com sucesso!",
+                                icon: "success"
+                            })
+                            $('#cadastrarAula').modal('hide')
+                            $('#tabela-aulas').load(location.href + ' #tabela-aulas')
+                            $('#novaAula')[0].reset()
+                        }
+                        else {
+                            console.log("Error")
+                        }
                     }
-                    else {
-                        console.log("Error")
-                    }
-                }
-            });
+                })
             }
-        });
+        })
 
         $(document).on('click','.editarAulaBtn', function () {
             var idAula = $(this).val()
@@ -835,15 +833,15 @@ $(document).ready(function() {
                         $('#EidAula').val(res.data.idAula);
                         $('#Etitulo').val(res.data.Titulo);
                         $('#Edescricao').val(res.data.Descricao);
-                        $('#Eprofessor').val(res.data.Professor);
+                        $('#Eprofessor').html('<option value="'+res.data.Professor+'">'+res.data.Professor+'</option>');
                         $('#Edata').val(res.data.Data);
-                        $('#Ecurso').val(res.data.Curso);
+                        $('#Ecurso').html('<option value="'+res.data.Curso+'">'+res.data.Curso+'</option>');
                         $('#editarAula').modal('show');
                     }
 
                 }
-            });
-        });
+            })
+        })
 
         $('#atualizarAula').submit(function (e) { 
             e.preventDefault();
@@ -864,7 +862,7 @@ $(document).ready(function() {
                         Swal.fire({
                             title: "Aula atualizada com sucesso!",
                             icon: "success"
-                        });
+                        })
                         $('#editarAula').modal('hide');
                         $('#tabela-aulas').load(location.href + ' #tabela-aulas')
                         return
@@ -874,8 +872,8 @@ $(document).ready(function() {
 
                     }
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click','.excluirAulaBtn', function () {
 
@@ -907,22 +905,19 @@ $(document).ready(function() {
                                 title: "Excluído!",
                                 text: "A aula foi excluída!",
                                 icon: "success"
-                                });
+                                })
                                 $('#tabela-aulas').load(location.href + " #tabela-aulas")
                             } else {
                                 Swal.fire({
                                 icon: "error",
                                 title: "Ação não executada!"
-                            });
+                                })
                             }
-                            
-
-                            
                         }
-                    }); 
+                    })
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click', '.presencaBtn', function () {
             var idAula = $(this).val()
@@ -1042,10 +1037,10 @@ $(document).ready(function() {
                             $('#modalpresenca').modal('hide')
                             $('#tabela-aulas').load(location.href + " #tabela-aulas")
                         }
-                    }); 
+                    })
                 }
-            });
-        });
+            })
+        })
 
         $(document).on('click','.excluirPresenca', function () {
             Swal.fire({
@@ -1077,10 +1072,10 @@ $(document).ready(function() {
                             });
                             $('#modalpresenca').modal('hide')
                         }
-                    }); 
+                    })
                 }
-            });
-        });
+            })
+        })
     } else {
         $('#tabela-professores').hide();
         $('#tabela-alunos').hide();

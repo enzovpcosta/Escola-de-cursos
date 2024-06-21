@@ -7,12 +7,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body class="bg-dark text-black">
-        <div style="background-image: url('login.jpg'); background-size: cover;">
-            <div style="backdrop-filter: brightness(80%);" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
+        <div style="background-image: url('img/login.jpg'); background-size: cover;">
+            <div style="backdrop-filter: brightness(70%);" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
                 <form style="width:40%; background-color: white; box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5)" class="p-4 rounded-4 m-auto" method="post">
                 <h2 class="mb-3 text-center">Recuperar Senha</h2>
                 <?php 
-
+                
                 include __DIR__.'/config.php';
             
                 if(isset($_POST['recuperar'])) {

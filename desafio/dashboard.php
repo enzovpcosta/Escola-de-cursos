@@ -18,7 +18,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
     <script src="assets/script.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
   </head>
   <body class="bg-dark text-light">
       <div style="height: 100vh;" class="d-flex justify-content-between gap-3">
@@ -41,6 +40,7 @@
                 <br>
                 <h2 id="bv"></h2>
                 <?php
+
                 require 'config.php';
 
                 $query = 'SELECT * FROM professores';
@@ -48,18 +48,18 @@
                 $dados ='';
                 foreach($res as $professor){
                 $dados .= "<tr>
-                                <td>".$professor['idProfessor']."</td>
-                                <td>".$professor['Nome']."</td>
-                                <td>".$professor['CPF']."</td>
-                                <td>".$professor['Telefone']."</td>
-                                <td>".date('d/m/Y', strtotime($professor['Nascimento']))."</td>
-                                <td>".$professor['Curso']."</td>
-                                <td>".$professor['Email']."</td>
-                                <td class=\"acaoP\">
-                                    <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"editarProfessorBtn btn btn-primary\">Editar</button></a>
-                                    <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"excluirProfessorBtn btn btn-danger\">Excluir</button></a>
-                                </td>
-                            </tr>";
+                            <td>".$professor['idProfessor']."</td>
+                            <td>".$professor['Nome']."</td>
+                            <td>".$professor['CPF']."</td>
+                            <td>".$professor['Telefone']."</td>
+                            <td>".date('d/m/Y', strtotime($professor['Nascimento']))."</td>
+                            <td>".$professor['Curso']."</td>
+                            <td>".$professor['Email']."</td>
+                            <td class=\"acaoP\">
+                                <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"editarProfessorBtn btn btn-primary\">Editar</button></a>
+                                <a><button type=\"button\" value=\"".$professor['idProfessor']."\" class=\"excluirProfessorBtn btn btn-danger\">Excluir</button></a>
+                            </td>
+                        </tr>";
                     }
                 ?>
                 <section id="tabela-professores">
@@ -90,6 +90,7 @@
                 </section>
 
                 <!-- Cadastrar Professor -->
+
                 <div class="modal fade text-dark" id="cadastrarProfessor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -137,8 +138,8 @@
                     </div>
                 </div>
 
-
                 <!-- Editar Professor -->
+
                 <div class="modal fade text-dark" id="editarProfessor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -237,6 +238,7 @@
                 </section>
 
                 <!-- Cadastrar Aluno -->
+
                 <div class="modal fade text-dark" id="cadastrarAluno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -284,8 +286,8 @@
                     </div>
                 </div>
 
-
                 <!-- Editar Aluno -->
+
                 <div class="modal fade text-dark" id="editarAluno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -331,6 +333,7 @@
                 </div>
 
                 <!-- AULAS ------------------------------------------------------------------------->
+
                 <?php
                 if(isset($_COOKIE['admin'])){
                     $query = 'SELECT * FROM aulas';
@@ -351,7 +354,6 @@
                                 </td>
                             </tr>";
                     }
-
                 } else if(isset($_COOKIE['professor'])){
                     $query = 'SELECT * FROM professores WHERE idProfessor='.$_COOKIE['professor'];
                     $res = $conn->query($query);
@@ -361,30 +363,10 @@
                     $res = $conn->query($query);
                     $qtd = $res->num_rows;
                     $dados ='';
-                        if($qtd == 0){
-                            $dados = '';
-                        } else {
-                            foreach($res as $aula){
-                            $dados .= "<tr>
-                                        <td>".$aula['idAula']."</td>
-                                        <td>".$aula['Titulo']."</td>
-                                        <td>".$aula['Descricao']."</td>
-                                        <td>".$aula['Professor']."</td>
-                                        <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
-                                        <td>".$aula['Curso']."</td>
-                                        <td class=\"acao\">
-                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"editarAulaBtn btn btn-primary\">Editar</button>
-                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"presencaBtn btn btn-secondary\">Presença</button>
-                                            <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
-                                        </td>
-                                    </tr>";
-                            }
-                        }
-                } else {
-                    $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']." AND presenca IS NOT NULL";
-                    $res = $conn->query($sql);
-                    $dados ='';
-                    foreach($res as $aula){
+                    if($qtd == 0){
+                        $dados = '<tr><td class="text-center bg-warning-subtle" colspan=7>Registre alguma aula!</td></tr>';
+                    } else {
+                        foreach($res as $aula){
                         $dados .= "<tr>
                                     <td>".$aula['idAula']."</td>
                                     <td>".$aula['Titulo']."</td>
@@ -399,14 +381,32 @@
                                     </td>
                                 </tr>";
                         }
+                    }
+                } else {
+                    $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Descricao, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']." AND presenca.Status IS NOT NULL";
+                    $res = $conn->query($sql);
+                    $qtd = $res->num_rows;
+                    $dados ='';
+                    if($qtd > 0){
+                        foreach($res as $aula){
+                        $dados .= "<tr>
+                                    <td>".$aula['Titulo']."</td>
+                                    <td>".$aula['Descricao']."</td>
+                                    <td>".$aula['Professor']."</td>
+                                    <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
+                                    <td>".$aula['Curso']."</td>
+                                </tr>";
+                        }
+                    } else {
+                        $dados = '<tr><td class="text-center bg-warning" colspan=6>Nenhuma aula foi registrada!</td></tr>';
+                    }  
                 }
-                
                 ?>
                 <section id="tabela-aulas">
                     <table class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th class="acao">ID</th>
                                 <th>Título</th>
                                 <th>Descrição</th>
                                 <th>Professor</th>
@@ -429,6 +429,7 @@
                 </section>
 
                 <!-- Cadastrar Aulas -->
+
                 <div class="modal fade text-dark" id="cadastrarAula" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -473,8 +474,8 @@
                     </div>
                 </div>
 
-
                 <!-- Editar Aulas -->
+                
                 <div class="modal fade text-dark" id="editarAula" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -495,7 +496,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="Eprofessor">Professor</label>
-                                        <input type="text" name="Eprofessor" id="Eprofessor" class="form-control">
+                                        <select name="Eprofessor" id="Eprofessor" class="form-control">
+                                            
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="Edata">Data</label>
@@ -503,7 +506,9 @@
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="Ecurso">Curso</label>
-                                        <input type="text" name="Ecurso" id="Ecurso" class="form-control">
+                                        <select name="Ecurso" id="Ecurso" class="form-control">
+
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -597,24 +602,30 @@
             <?php 
 
             if(isset($_COOKIE['aluno'])){
-                $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']."";
+                $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Descricao, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']."";
                 $res = $conn->query($sql);
+                $qtd = $res->num_rows;
                 $dados ='';
-                foreach($res as $aula){
-                    if($aula['Status'] == 'Presente'){
-                        $td = "<td class=\"bg-success-subtle\">".$aula['Status']."</td>";
-                    } else {
-                        $td = "<td class=\"bg-danger-subtle\">".$aula['Status']."</td>";
-                    }
+                if($qtd > 0){
+                    foreach($res as $aula){
+                        if($aula['Status'] == 'Presente'){
+                            $td = "<td class=\"bg-success-subtle\">".$aula['Status']."</td>";
+                        } else {
+                            $td = "<td class=\"bg-danger-subtle\">".$aula['Status']."</td>";
+                        }
+                        
                     
-                
-                $dados .= "<tr>
-                            <td>".$aula['Titulo']."</td>
-                            <td>".$aula['Professor']."</td>
-                            <td>".$aula['Curso']."</td>
-                            <td>".date('d/m/Y', strtotime($aula['Data']))."</td>"
-                            .$td."
-                        </tr>";
+                    $dados .= "<tr>
+                                <td>".$aula['Titulo']."</td>
+                                <td>".$aula['Descricao']."</td>
+                                <td>".$aula['Professor']."</td>
+                                <td>".$aula['Curso']."</td>
+                                <td>".date('d/m/Y', strtotime($aula['Data']))."</td>"
+                                .$td."
+                            </tr>";
+                    }    
+                } else {
+                     $dados = '<tr><td class="text-center bg-warning" colspan=6>Nenhuma presença foi registrada!</td></tr>';
                 }
             }
                             
@@ -624,6 +635,7 @@
                 <thead>
                     <tr>
                         <th>Aula</th>
+                        <th>Descrição</th>
                         <th>Professor</th>
                         <th>Curso</th>
                         <th>Data</th>

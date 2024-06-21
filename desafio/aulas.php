@@ -73,27 +73,45 @@ if(isset($_POST['nova_aula'])){
 }
 
 if(isset($_POST['modal_aula']) == 'true'){
-    $query = 'SELECT * FROM professores';
-    $res = $conn->query($query);
-    $professor = '';
-    foreach($res as $row){
-        $professor .= "<option value=\"".$row['Nome']."\">".$row['Nome']."</option>";
-    }
+    if(isset($_COOKIE['professor'])){
+        $id = $_COOKIE['professor'];
+        $query = 'SELECT * FROM professores WHERE idProfessor='.$id;
+        $res = $conn->query($query);
+        $dados = $res->fetch_object();
+        $prof = "<option value=\"".$dados->Nome."\">".$dados->Nome."</option>";
+        $curso = "<option value=\"".$dados->Curso."\">".$dados->Curso."</option>";
+        $res = [
+            'tipo' => 'professor',
+            'professor' => $prof,
+            'curso' => $curso
+        ];
+        echo json_encode($res);  
 
-    $query = 'SELECT DISTINCT Curso FROM professores';
-    $res = $conn->query($query);
-    $curso = '';
-    foreach($res as $row){
-        $curso .= "<option value=\"".$row['Curso']."\">".$row['Curso']."</option>";
+    } else {
+        $query = 'SELECT * FROM professores';
+        $res = $conn->query($query);
+        $professor = '';
+        foreach($res as $row){
+            $professor .= "<option value=\"".$row['Nome']."\">".$row['Nome']."</option>";
+        }
+
+        $query = 'SELECT DISTINCT Curso FROM professores';
+        $res = $conn->query($query);
+        $curso = '';
+        foreach($res as $row){
+            $curso .= "<option value=\"".$row['Curso']."\">".$row['Curso']."</option>";
+        }
+        $res = [
+            'tipo' => 'admin',
+            'status' => 200,
+            'msg' => 'success',
+            'professor' => $professor,
+            'curso' => $curso
+        ];
+        echo json_encode($res);                               
     }
-    $res = [
-        'status' => 200,
-        'msg' => 'success',
-        'professor' => $professor,
-        'curso' => $curso
-    ];
-    echo json_encode($res);                               
 }
+    
 
 if(isset($_GET['idProfessor'])){
     $idProfessor = $_GET['idProfessor'];

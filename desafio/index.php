@@ -20,14 +20,14 @@
     <script src="assets/script.js"></script>
 </head>
 <body class="text-black">
-    <div style="background-image: url('login.jpg'); background-size: cover;">
+    <div style="background-image: url('img/login.jpg'); background-size: cover;">
         <div style="backdrop-filter: brightness(70%);" class="min-vh-100 d-flex flex-column justify-content-center m-auto">
             <form style="width:40%; background-color: white; box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.5)" class="p-4 rounded-4 m-auto" method="post" id="login">
                 <h2 class="pb-3 text-center">Login</h2>
                 <div class="alertLogin alert alert-danger text-center mx-4"></div>
                 <div class="mb-3">
                     <label for="emailLogin" class="form-label">E-mail</label>
-                    <input type="text" class="form-control" name="emailLogin" id="emailLogin">
+                    <input type="text" class="form-control" name="emailLogin" id="emailLogin" autofocus>
                 </div>
                 <div class="mb-3">
                     <label for="senhaLogin" class="form-label">Senha</label>
