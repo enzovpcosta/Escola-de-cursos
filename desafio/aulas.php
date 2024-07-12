@@ -2,10 +2,21 @@
 
 require 'config.php';
 
+if(isset($_POST['verifica_aula'])){
+    $query = 'SELECT * FROM aulas';
+    $res = $conn->query($query);
+    $qtd = $res->num_rows;
+    if($qtd > 0){
+        echo json_encode(true);
+    } else {
+        echo json_encode(false);
+    }
+}
+
 if(isset($_POST['excluir_aula'])){
     $id = $_POST['idAula'];
-    $query = 'DELETE FROM presenca WHERE idAula='.$id;
-    $res = $conn->query($query);
+    // $query = 'DELETE FROM presenca WHERE idAula='.$id;
+    // $res = $conn->query($query);
     $query = 'DELETE FROM aulas WHERE idAula='.$id;
     $res = $conn->query($query);
     echo json_encode(true);

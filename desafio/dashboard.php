@@ -62,8 +62,9 @@
                         </tr>";
                     }
                 ?>
-                <section id="tabela-professores">
-                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
+                <section id="secao-professores">
+                <div class="alertProfessor alert alert-danger text-center mx-4">Nenhum professor registrado!</div>
+                    <table id="tabela-professores" class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -78,15 +79,11 @@
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr class="newP">
-                                <th class="text-center" colspan=8>
-                                    <a class="btn-cadastrar-professor">
-                                        <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarProfessor">Novo professor</button>
-                                    </a>
-                                </th>
-                            </tr>
                         </tbody>
                     </table>
+                    <a class="btn-cadastrar-professor">
+                        <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarProfessor">Novo professor</button>
+                    </a>
                 </section>
 
                 <!-- Cadastrar Professor -->
@@ -210,8 +207,9 @@
                             </tr>";
                     }
                 ?>
-                <section id="tabela-alunos">
-                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
+                <section id="secao-alunos">
+                    <div class="alertAluno alert alert-danger text-center mx-4">Nenhum aluno registrado!</div>
+                    <table id="tabela-alunos" class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -226,15 +224,11 @@
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr class="newP">
-                                <th class="text-center" colspan=8>
-                                    <a class="btn-cadastrar-aluno">
-                                        <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarAluno">Novo aluno</button>
-                                    </a>
-                                </th>
-                            </tr>
                         </tbody>
                     </table>
+                    <a class="btn-cadastrar-aluno">
+                        <button class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#cadastrarAluno">Novo aluno</button>
+                    </a>
                 </section>
 
                 <!-- Cadastrar Aluno -->
@@ -361,12 +355,7 @@
                     $nome = $prof->Nome;
                     $query = "SELECT * FROM aulas WHERE Professor='$nome'";
                     $res = $conn->query($query);
-                    $qtd = $res->num_rows;
-                    $dados ='';
-                    if($qtd == 0){
-                        $dados = '<tr><td class="text-center bg-warning-subtle" colspan=7>Registre alguma aula!</td></tr>';
-                    } else {
-                        foreach($res as $aula){
+                    foreach($res as $aula){
                         $dados .= "<tr>
                                     <td>".$aula['idAula']."</td>
                                     <td>".$aula['Titulo']."</td>
@@ -380,15 +369,12 @@
                                         <button type=\"button\" value=\"".$aula['idAula']."\" class=\"excluirAulaBtn btn btn-danger\">Excluir</button>
                                     </td>
                                 </tr>";
-                        }
                     }
                 } else {
                     $sql = "SELECT alunos.Nome, aulas.Titulo, aulas.Descricao, aulas.Professor, aulas.Curso, aulas.Data, presenca.Status FROM presenca JOIN alunos ON presenca.idAluno = alunos.idAluno JOIN aulas ON presenca.idAula = aulas.idAula WHERE alunos.idAluno=".$_COOKIE['aluno']." AND presenca.Status IS NOT NULL";
                     $res = $conn->query($sql);
-                    $qtd = $res->num_rows;
                     $dados ='';
-                    if($qtd > 0){
-                        foreach($res as $aula){
+                    foreach($res as $aula){
                         $dados .= "<tr>
                                     <td>".$aula['Titulo']."</td>
                                     <td>".$aula['Descricao']."</td>
@@ -396,14 +382,12 @@
                                     <td>".date('d/m/Y', strtotime($aula['Data']))."</td>
                                     <td>".$aula['Curso']."</td>
                                 </tr>";
-                        }
-                    } else {
-                        $dados = '<tr><td class="text-center bg-warning" colspan=6>Nenhuma aula foi registrada!</td></tr>';
-                    }  
+                    }
                 }
                 ?>
-                <section id="tabela-aulas">
-                    <table class="table mt-3 text-center table-hover border-dark table-responsive">
+                <section id="secao-aulas">
+                    <div class="alertAula alert alert-danger text-center mx-4">Nenhuma aula registrada!</div>
+                    <table id="tabela-aulas" class="table mt-3 text-center table-hover border-dark table-responsive">
                         <thead>
                             <tr>
                                 <th class="acao">ID</th>
@@ -417,15 +401,11 @@
                         </thead>
                         <tbody>
                             <?=$dados?>
-                            <tr class="new">
-                                <th class="text-center" colspan=7>
-                                    <a class="btn-cadastrar-aula">
-                                        <button class="btn btn-success my-2" id="btnNovaAula">Nova aula</button>
-                                    </a>
-                                </th>
-                            </tr>
                         </tbody>
                     </table>
+                    <a class="btn-cadastrar-aula">
+                        <button class="btn btn-success my-2" id="btnNovaAula">Nova aula</button>
+                    </a>
                 </section>
 
                 <!-- Cadastrar Aulas -->

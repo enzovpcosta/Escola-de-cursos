@@ -52,9 +52,9 @@ $(document).ready(function() {
     });
 
     if(Cookies.get('admin')){
-        $('#tabela-professores').hide();
-        $('#tabela-alunos').hide();
-        $('#tabela-aulas').hide();
+        $('#secao-professores').hide();
+        $('#secao-alunos').hide();
+        $('#secao-aulas').hide();
          $('#tabela-presenca-alunos').hide();
         $('#presenca').hide();
         $('.cpf').mask('000.000.000-00', {reverse: true});
@@ -63,9 +63,27 @@ $(document).ready(function() {
         $('#professores').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-professores').show();
-            $('#tabela-alunos').hide();
-            $('#tabela-aulas').hide();
+            $('#secao-professores').show();
+            $('#secao-alunos').hide();
+            $('#secao-aulas').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "professores.php",
+                data: {
+                    'verifica_professor': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-professores').hide();
+                        $('.alertAluno').show();
+                    } else {
+                        $('#tabela-professores').show();
+                        $('.alertProfessor').hide();
+                    }
+                }
+            });
         });
 
         $('#novoProfessor').submit(function (e) { 
@@ -88,7 +106,9 @@ $(document).ready(function() {
                             title: "Professor cadastrado com sucesso!",
                             icon: "success"
                         });
+                        $('.alertProfessor').hide();
                         $('#cadastrarProfessor').modal('hide')
+                        $('#tabela-professores').show();
                         $('#tabela-professores').load(location.href + ' #tabela-professores')
                         $('#novoProfessor')[0].reset()
                     }
@@ -194,7 +214,22 @@ $(document).ready(function() {
                             text: "O professor foi excluído!",
                             icon: "success"
                             });
-                            $('#tabela-professores').load(location.href + " #tabela-professores")
+                            $.ajax({
+                                type: "POST",
+                                url: "professores.php",
+                                data: {
+                                    'verifica_professor': true
+                                },
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response == false){
+                                        $('#tabela-professores').hide();
+                                        $('.alertProfessor').show();
+                                    } else {
+                                        $('#tabela-professores').load(location.href + " #tabela-professores")
+                                    }
+                                }
+                            });
                         }
                     }); 
                 }
@@ -206,9 +241,27 @@ $(document).ready(function() {
         $('#alunos').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-alunos').show();
-            $('#tabela-professores').hide();
-            $('#tabela-aulas').hide();
+            $('#secao-alunos').show();
+            $('#secao-professores').hide();
+            $('#secao-aulas').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "alunos.php",
+                data: {
+                    'verifica_aluno': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-alunos').hide();
+                        $('.alertAluno').show();
+                    } else {
+                        $('#tabela-alunos').show();
+                        $('.alertAluno').hide();
+                    }
+                }
+            });
         });
 
         $('#novoAluno').submit(function (e) { 
@@ -231,7 +284,9 @@ $(document).ready(function() {
                             title: "Aluno cadastrado com sucesso!",
                             icon: "success"
                         });
+                        $('.alertAluno').hide()
                         $('#cadastrarAluno').modal('hide')
+                        $('#tabela-alunos').show();
                         $('#tabela-alunos').load(location.href + ' #tabela-alunos')
                         $('#novoAluno')[0].reset()
                     }
@@ -335,9 +390,27 @@ $(document).ready(function() {
                             text: "O aluno foi excluído!",
                             icon: "success"
                             })
-                            $('#tabela-alunos').load(location.href + " #tabela-alunos")
+                            $.ajax({
+                                type: "POST",
+                                url: "alunos.php",
+                                data: {
+                                    'verifica_aluno': true
+                                },
+                                dataType: "json",
+                                success: function (response) {
+                                    if (response == false){
+                                        $('#tabela-alunos').hide();
+                                        $('.alertAluno').show();
+                                    } else {
+                                        $('#tabela-alunos').load(location.href + " #tabela-alunos")
+                                    }
+                                }
+                            });
+                            
                         }
                     });
+
+                    
                 }
             })
         })
@@ -346,9 +419,27 @@ $(document).ready(function() {
         $('#aulas').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-alunos').hide();
-            $('#tabela-professores').hide();
-            $('#tabela-aulas').show();
+            $('#secao-aulas').show();
+            $('#secao-alunos').hide();
+            $('#secao-professores').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "aulas.php",
+                data: {
+                    'verifica_aula': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-aulas').hide();
+                        $('.alertAula').show();
+                    } else {
+                        $('#tabela-aulas').show();
+                        $('.alertAula').hide();
+                    }
+                }
+            });
         });
 
         $(document).on('click', '#btnNovaAula', function () {
@@ -417,7 +508,9 @@ $(document).ready(function() {
                             title: "Aula cadastrada com sucesso!",
                             icon: "success"
                         });
+                        $('.alertAula').hide();
                         $('#cadastrarAula').modal('hide')
+                        $('#tabela-aulas').show();
                         $('#tabela-aulas').load(location.href + ' #tabela-aulas')
                         $('#novaAula')[0].reset()
                     }
@@ -523,7 +616,22 @@ $(document).ready(function() {
                                 text: "A aula foi excluída!",
                                 icon: "success"
                                 })
-                                $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                                $.ajax({
+                                    type: "POST",
+                                    url: "aulas.php",
+                                    data: {
+                                        'verifica_aula': true
+                                    },
+                                    dataType: "json",
+                                    success: function (response) {
+                                        if (response == false){
+                                            $('#tabela-aulas').hide();
+                                            $('.alertAula').show();
+                                        } else {
+                                            $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                                        }
+                                    }
+                                });
                             } else {
                                 Swal.fire({
                                 icon: "error",
@@ -690,9 +798,9 @@ $(document).ready(function() {
             })
         })
     } else if(Cookies.get('professor')){
-        $('#tabela-professores').hide();
-        $('#tabela-alunos').hide();
-        $('#tabela-aulas').hide();
+        $('#secao-professores').hide()
+        $('#secao-alunos').hide();
+        $('#secao-aulas').hide();
         $('#tabela-presenca-alunos').hide();
         $('#presenca').hide();
         $('.acaoP').hide();
@@ -703,9 +811,28 @@ $(document).ready(function() {
         $('#professores').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-professores').show();
-            $('#tabela-alunos').hide();
-            $('#tabela-aulas').hide();
+            $('#secao-professores').show();
+            $('#secao-alunos').hide();
+            $('#secao-aulas').hide();
+            $('.btn-cadastrar-professor').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "professores.php",
+                data: {
+                    'verifica_professor': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-professores').hide();
+                        $('.alertAluno').show();
+                    } else {
+                        $('#tabela-professores').show();
+                        $('.alertProfessor').hide();
+                    }
+                }
+            });
         });
 
         //ALUNO ---------------------------------------------
@@ -713,9 +840,27 @@ $(document).ready(function() {
         $('#alunos').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-alunos').show();
-            $('#tabela-professores').hide();
-            $('#tabela-aulas').hide();
+            $('#secao-alunos').show();
+            $('#secao-professores').hide();
+            $('#secao-aulas').hide();
+            $('.btn-cadastrar-aluno').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "alunos.php",
+                data: {
+                    'verifica_aluno': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-alunos').hide();
+                        $('.alertAluno').show();
+                    } else {
+                        $('.alertAluno').hide();
+                    }
+                }
+            });
         });
 
         //AULAS ---------------------------------------------------
@@ -723,10 +868,28 @@ $(document).ready(function() {
         $('#aulas').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-alunos').hide();
-            $('#tabela-professores').hide();
-            $('#tabela-aulas').show();
-        })
+            $('#secao-aulas').show();
+            $('#secao-alunos').hide();
+            $('#secao-professores').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "aulas.php",
+                data: {
+                    'verifica_aula': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-aulas').hide();
+                        $('.alertAula').show();
+                    } else {
+                        $('#tabela-aulas').show();
+                        $('.alertAula').hide();
+                    }
+                }
+            });
+        });
 
         $(document).on('click', '#btnNovaAula', function () {
             $.ajax({
@@ -800,7 +963,9 @@ $(document).ready(function() {
                                 title: "Aula cadastrada com sucesso!",
                                 icon: "success"
                             })
+                            $('.alertAula').hide();
                             $('#cadastrarAula').modal('hide')
+                            $('#tabela-aulas').show();
                             $('#tabela-aulas').load(location.href + ' #tabela-aulas')
                             $('#novaAula')[0].reset()
                         }
@@ -906,7 +1071,22 @@ $(document).ready(function() {
                                 text: "A aula foi excluída!",
                                 icon: "success"
                                 })
-                                $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                                $.ajax({
+                                    type: "POST",
+                                    url: "aulas.php",
+                                    data: {
+                                        'verifica_aula': true
+                                    },
+                                    dataType: "json",
+                                    success: function (response) {
+                                        if (response == false){
+                                            $('#tabela-aulas').hide();
+                                            $('.alertAula').show();
+                                        } else {
+                                            $('#tabela-aulas').load(location.href + " #tabela-aulas")
+                                        }
+                                    }
+                                });
                             } else {
                                 Swal.fire({
                                 icon: "error",
@@ -1077,9 +1257,9 @@ $(document).ready(function() {
             })
         })
     } else {
-        $('#tabela-professores').hide();
-        $('#tabela-alunos').hide();
-        $('#tabela-aulas').hide();
+        $('#secao-professores').hide();
+        $('#secao-alunos').hide();
+        $('#secao-aulas').hide();
         $('#tabela-presenca-alunos').hide();
         $('#professores').hide();
         $('#alunos').hide();
@@ -1088,7 +1268,7 @@ $(document).ready(function() {
         $('#aulas').click(function (e) { 
             e.preventDefault();
 
-            $('#tabela-aulas').show();
+            $('#secao-aulas').show();
             $('#tabela-presenca-alunos').hide();
             $('.acao').hide();
             $('.new').hide();
@@ -1098,7 +1278,7 @@ $(document).ready(function() {
             e.preventDefault();
 
             $('#tabela-presenca-alunos').show();
-            $('#tabela-aulas').hide();
+            $('#secao-aulas').hide();
         });
     }
 });

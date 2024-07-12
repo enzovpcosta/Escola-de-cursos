@@ -2,6 +2,17 @@
 
 require 'config.php';
 
+if(isset($_POST['verifica_professor'])){
+    $query = 'SELECT * FROM professores';
+    $res = $conn->query($query);
+    $qtd = $res->num_rows;
+    if($qtd > 0){
+        echo json_encode(true);
+    } else {
+        echo json_encode(false);
+    }
+}
+
 if(isset($_POST['excluir_professor'])){
     $id = $_POST['idProfessor'];
     $query = 'DELETE FROM professores WHERE idProfessor='.$id;
