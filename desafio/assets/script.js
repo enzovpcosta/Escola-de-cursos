@@ -55,7 +55,7 @@ $(document).ready(function() {
         $('#secao-professores').hide();
         $('#secao-alunos').hide();
         $('#secao-aulas').hide();
-         $('#tabela-presenca-alunos').hide();
+        $('#tabela-presenca-alunos').hide();
         $('#presenca').hide();
         $('.cpf').mask('000.000.000-00', {reverse: true});
         $('.tel').mask('(00) 00000-0000');
@@ -1272,6 +1272,25 @@ $(document).ready(function() {
             $('#tabela-presenca-alunos').hide();
             $('.acao').hide();
             $('.new').hide();
+            $('.btn-cadastrar-aula').hide();
+
+            $.ajax({
+                type: "POST",
+                url: "aulas.php",
+                data: {
+                    'verifica_aula': true
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response == false){
+                        $('#tabela-aulas').hide();
+                        $('.alertAula').show();
+                    } else {
+                        $('#tabela-aulas').show();
+                        $('.alertAula').hide();
+                    }
+                }
+            });
         });
 
         $('#presenca').click(function (e) { 
